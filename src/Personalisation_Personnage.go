@@ -1,4 +1,4 @@
-package personnage
+package Personalisation_Personnage
 
 import "fmt"
 
@@ -46,6 +46,27 @@ func ChoixClasse() bool {
 		return true
 	default:
 		fmt.Println("Choix invalide. Veuillez choisir 1, 2 ou 3.")
+		return false
+	}
+}
+
+func ChoixSexe() bool {
+	var choix string
+	fmt.Println("Choisissez le sexe de votre personnage (1 ou 2 ou 3) :")
+	fmt.Println("1. Masculin")
+	fmt.Println("2. Féminin")
+	fmt.Println("3. Autre")
+	fmt.Scanln(&choix)
+
+	switch choix {
+	case "1":
+		fmt.Println("Vous avez choisi le sexe Masculin.")
+		return true
+	case "2":
+		fmt.Println("Vous avez choisi le sexe Féminin.")
+		return true
+	default:
+		fmt.Println("Choix invalide. Veuillez choisir 1 ou 2.")
 		return false
 	}
 }
