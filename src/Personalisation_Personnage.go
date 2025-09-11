@@ -1,4 +1,4 @@
-package main
+package personnage
 
 import "fmt"
 
@@ -48,4 +48,13 @@ func ChoixClasse() bool {
 		fmt.Println("Choix invalide. Veuillez choisir 1, 2 ou 3.")
 		return false
 	}
+}
+
+func Choisir_Nom() string {
+	var nom string
+	fmt.Println("Entrez le nom de votre personnage :")
+	fmt.Scanln(&nom)
+	fmt.Print("Votre personnage s'appelle : ", nom, "\n")
+	fmt.Println("Bienvenue dans le monde de Aerthar.")
+	return nom
 }
