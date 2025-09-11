@@ -55,6 +55,14 @@ func Choisir_Nom() string {
 	fmt.Println("Entrez le nom de votre personnage :")
 	fmt.Scanln(&nom)
 	fmt.Print("Votre personnage s'appelle : ", nom, "\n")
-	fmt.Println("Bienvenue dans le monde de Aerthar.")
-	return nom
+	fmt.Println("Etes vous sur? (oui/non)")
+	var reponse string
+	fmt.Scanln(&reponse)
+	if reponse == "oui" {
+		fmt.Println("Bienvenue dans le monde de Aerthar (", nom, ").")
+		return nom
+	} else {
+		fmt.Println("Veuillez choisir un autre nom.")
+		return Choisir_Nom()
+	}
 }
