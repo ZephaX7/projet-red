@@ -1,10 +1,10 @@
-package main
+package Shop
 
 import (
 	"fmt"
 )
 
-func main() {
+func shop() {
 	items := []string{
 		"Potion de soin gratuite(C'est pour toi bg,cadeau de la maison. Par contre si tu l'uses pour rien, je vais te retrouver donc fais gaffe à toi)",
 		"Potion de soin",
