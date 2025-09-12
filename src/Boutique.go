@@ -4,20 +4,25 @@ import "fmt"
 
 func boutique() {
 	var shop string
-	fmt.Println("Choisissez votre race (1, 2 ou 3) : ") //MODIFIER TOUS LES TRUCS DE PERSOS EN ACHAT
-	fmt.Println("1. Humain (adapté à la classe guerrier)")
-	fmt.Println("2. Elfe (adapté à la classe mage)")
-	fmt.Println("3. Nain (adapté à la classe assassin)")
+	fmt.Println("Bienvenue,")
+	fmt.Println()
+	fmt.Println("Que désirez-vous ?")
+	fmt.Println()
+	fmt.Println("Magasin (choisir par le chiffre ou le numéro):")
+	fmt.Println()
+	fmt.Println("0 Potion de vie gratuite(C'est pour toi bg,cadeau de la maison. Par contre si tu l'uses pour rien, je vais te retrouver donc fais gaffe à toi)")
+	fmt.Println("1 Potion de vie")
+	fmt.Println("2 Potion de poison")
 	fmt.Scanln(&shop)
 
 	switch shop {
-	case "1":
+	case "0":
 		fmt.Println("Vous avez choisi la race Humain.")
 		return true
-	case "2":
+	case "1":
 		fmt.Println("Vous avez choisi la race Elfe.")
 		return true
-	case "3":
+	case "2":
 		fmt.Println("Vous avez choisi la race Nain.")
 		return true
 	default:

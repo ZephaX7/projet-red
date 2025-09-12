@@ -1,1 +1,1 @@
-package inventaire
+package inventory
