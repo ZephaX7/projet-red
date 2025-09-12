@@ -41,7 +41,7 @@ func main() {
 			} else {
 				bought = append(bought, items[choice-1])
 				freeTaken = true
-				fmt.Println("Vous avez pris", items[choice-1], "gratuitement !")
+				fmt.Println("Vous avez pris", items[choice-1])
 				continue
 			}
 		}
