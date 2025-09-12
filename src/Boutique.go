@@ -10,14 +10,14 @@ func boutique() {
 	fmt.Println()
 	fmt.Println("Magasin (choisir par le chiffre ou le numéro):")
 	fmt.Println()
-	fmt.Println("0 Potion de vie gratuite(C'est pour toi bg,cadeau de la maison. Par contre si tu l'uses pour rien, je vais te retrouver donc fais gaffe à toi)")
-	fmt.Println("1 Potion de vie")
-	fmt.Println("2 Potion de poison")
+	fmt.Println("0  - Potion de vie gratuite(C'est pour toi bg,cadeau de la maison. Par contre si tu l'uses pour rien, je vais te retrouver donc fais gaffe à toi)")
+	fmt.Println("1  - Potion de vie")
+	fmt.Println("2  - Potion de poison")
 	fmt.Scanln(&shop)
 
 	switch shop {
 	case "0":
-		fmt.Println("Vous avez choisi la race Humain.")
+		fmt.Println("Voulez vraiment le récupérer")
 		return true
 	case "1":
 		fmt.Println("Vous avez choisi la race Elfe.")
