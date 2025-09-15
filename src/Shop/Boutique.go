@@ -9,8 +9,11 @@ func shop() {
 		"Potion de soin gratuite(C'est pour toi bg,cadeau de la maison. Par contre si tu l'uses pour rien, je vais te retrouver donc fais gaffe à toi)",
 		"Potion de soin",
 		"Potion de poison",
+		"Livre de Sort : Boule de feu",
+		"Fourrure de Loup",
+		"Peau de Troll",
 	}
-	prices := []int{0, 50, 40} // la première est gratuite
+	prices := []int{0, 3, 6, 25, 4, 7, 3, 1} // la première est gratuite
 	gold := 100
 	bought := []string{}
 	freeTaken := false // pour l'article gratuit
