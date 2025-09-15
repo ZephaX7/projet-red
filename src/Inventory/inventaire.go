@@ -9,6 +9,7 @@ type Objet struct {
 
 var Inventaire []Objet
 
+// Affiche l'inventaire
 func AccessInventory() {
 	fmt.Println("Voici votre inventaire :")
 	if len(Inventaire) == 0 {
@@ -20,6 +21,7 @@ func AccessInventory() {
 	}
 }
 
+// Ajoute un objet à l'inventaire
 func AddInventory(objet Objet) {
 	for i, item := range Inventaire {
 		if item.Nom == objet.Nom {
