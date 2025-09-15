@@ -1,0 +1,256 @@
+package personnalisation
+
+import (
+	"bufio"
+	"fmt"
+	"io"
+	"strings"
+)
+
+// --- ÉNUMS ---
+
+type Race int
+
+const (
+	RaceHumain Race = iota + 1
+	RaceElfe
+	RaceNain
+)
+
+func (r Race) String() string {
+	switch r {
+	case RaceHumain:
+		return "Humain"
+	case RaceElfe:
+		return "Elfe"
+	case RaceNain:
+		return "Nain"
+	default:
+		return "Inconnue"
+	}
+}
+
+type Classe int
+
+const (
+	ClasseGuerrier Classe = iota + 1
+	ClasseMage
+	ClasseAssassin
+)
+
+func (c Classe) String() string {
+	switch c {
+	case ClasseGuerrier:
+		return "Guerrier"
+	case ClasseMage:
+		return "Mage"
+	case ClasseAssassin:
+		return "Assassin"
+	default:
+		return "Inconnue"
+	}
+}
+
+type Sexe int
+
+const (
+	SexeMasculin Sexe = iota + 1
+	SexeFeminin
+	SexeAutre
+)
+
+func (s Sexe) String() string {
+	switch s {
+	case SexeMasculin:
+		return "Masculin"
+	case SexeFeminin:
+		return "Féminin"
+	case SexeAutre:
+		return "Autre"
+	default:
+		return "Inconnu"
+	}
+}
+
+// --- MODÈLE ---
+
+type Personnage struct {
+	Nom    string
+	Race   Race
+	Classe Classe
+	Sexe   Sexe
+}
+
+func NewPersonnage() *Personnage { return &Personnage{} }
+
+func (p *Personnage) Resume() string {
+	return fmt.Sprintf(
+		"Nom   : %s\nRace  : %s\nClasse: %s\nSexe  : %s",
+		p.Nom, p.Race, p.Classe, p.Sexe,
+	)
+}
+
+// --- CREATEUR (I/O injectable) ---
+
+type Createur struct {
+	in  *bufio.Reader
+	out io.Writer
+}
+
+func NewCreateur(in io.Reader, out io.Writer) *Createur {
+	return &Createur{
+		in:  bufio.NewReader(in),
+		out: out,
+	}
+}
+
+func (c *Createur) println(v ...any)               { fmt.Fprintln(c.out, v...) }
+func (c *Createur) printf(format string, a ...any) { fmt.Fprintf(c.out, format, a...) }
+func (c *Createur) readLine() (string, error) {
+	line, err := c.in.ReadString('\n')
+	// Même en cas d'EOF, on récupère ce qui a été saisi
+	return strings.TrimSpace(line), err
+}
+
+// Orchestrateur
+func (c *Createur) Personnaliser(p *Personnage) error {
+	if err := c.DemanderRace(p); err != nil {
+		return err
+	}
+	if err := c.DemanderClasse(p); err != nil {
+		return err
+	}
+	if err := c.DemanderSexe(p); err != nil {
+		return err
+	}
+	if err := c.DemanderNom(p); err != nil {
+		return err
+	}
+	return nil
+}
+
+// --- Étapes de personnalisation ---
+
+func (c *Createur) DemanderRace(p *Personnage) error {
+	for {
+		c.println("Choisissez votre race (1, 2 ou 3) :")
+		c.println("1. Humain (adapté à la classe Guerrier)")
+		c.println("2. Elfe   (adapté à la classe Mage)")
+		c.println("3. Nain   (adapté à la classe Assassin)")
+		c.printf("> ")
+
+		input, _ := c.readLine()
+		switch strings.ToLower(input) {
+		case "1", "humain":
+			p.Race = RaceHumain
+			c.println("Vous avez choisi la race Humain.")
+			return nil
+		case "2", "elfe":
+			p.Race = RaceElfe
+			c.println("Vous avez choisi la race Elfe.")
+			return nil
+		case "3", "nain":
+			p.Race = RaceNain
+			c.println("Vous avez choisi la race Nain.")
+			return nil
+		default:
+			c.println("Choix invalide. Veuillez choisir 1, 2 ou 3.")
+		}
+	}
+}
+
+func (c *Createur) DemanderClasse(p *Personnage) error {
+	for {
+		c.println("Choisissez votre classe (1, 2 ou 3) :")
+		c.println("1. Guerrier")
+		c.println("2. Mage")
+		c.println("3. Assassin")
+		c.printf("> ")
+
+		input, _ := c.readLine()
+		switch strings.ToLower(input) {
+		case "1", "guerrier":
+			p.Classe = ClasseGuerrier
+			c.println("Vous avez choisi le Guerrier.")
+			return nil
+		case "2", "mage":
+			p.Classe = ClasseMage
+			c.println("Vous avez choisi le Mage.")
+			return nil
+		case "3", "assassin":
+			p.Classe = ClasseAssassin
+			c.println("Vous avez choisi l'Assassin.")
+			return nil
+		default:
+			c.println("Choix invalide. Veuillez choisir 1, 2 ou 3.")
+		}
+	}
+}
+
+func (c *Createur) DemanderSexe(p *Personnage) error {
+	for {
+		c.println("Choisissez le sexe de votre personnage (1, 2 ou 3) :")
+		c.println("1. Masculin")
+		c.println("2. Féminin")
+		c.println("3. Autre")
+		c.printf("> ")
+
+		input, _ := c.readLine()
+		switch strings.ToLower(input) {
+		case "1", "m", "masculin":
+			p.Sexe = SexeMasculin
+			c.println("Vous avez choisi le sexe Masculin.")
+			return nil
+		case "2", "f", "féminin", "feminin":
+			p.Sexe = SexeFeminin
+			c.println("Vous avez choisi le sexe Féminin.")
+			return nil
+		case "3", "o", "autre":
+			p.Sexe = SexeAutre
+			c.println("Vous avez choisi le sexe Autre.")
+			return nil
+		default:
+			c.println("Choix invalide. Veuillez choisir 1, 2 ou 3.")
+		}
+	}
+}
+
+func (c *Createur) DemanderNom(p *Personnage) error {
+	for {
+		c.println("Entrez le nom de votre personnage :")
+		c.printf("> ")
+		nom, _ := c.readLine()
+
+		if nom == "" {
+			c.println("Le nom ne peut pas être vide.")
+			continue
+		}
+
+		c.printf("Votre personnage s'appelle : %s\n", nom)
+		ok, _ := c.confirmer("Êtes-vous sûr ? (oui/non)")
+		if ok {
+			p.Nom = nom
+			c.printf("Bienvenue dans le monde d'Aerthar (%s).\n", nom)
+			return nil
+		}
+		c.println("D'accord, réessayons.")
+	}
+}
+
+func (c *Createur) confirmer(question string) (bool, error) {
+	for {
+		c.println(question)
+		c.printf("> ")
+		rep, _ := c.readLine()
+		rep = strings.ToLower(rep)
+
+		switch rep {
+		case "oui", "o", "y", "yes":
+			return true, nil
+		case "non", "n", "no":
+			return false, nil
+		default:
+			c.println("Réponse invalide, tapez oui/non.")
+		}
+	}
+}

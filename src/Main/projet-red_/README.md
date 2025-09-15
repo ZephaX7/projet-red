@@ -1,0 +1,1 @@
+Bienvenue dans les Chroniques Aethar, un monde de fantasy, ou humains, elfes et nains cohabitent pour lutter contre la menace de monstres, devenez le nouveau héros qui nous délivrera de cet menace et sauvez le royaume d'Aethar !

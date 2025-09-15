@@ -1,0 +1,5 @@
+package combat
+
+func combat() {
+
+}
