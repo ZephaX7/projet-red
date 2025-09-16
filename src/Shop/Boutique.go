@@ -3,7 +3,7 @@ package Shop
 import (
 	"fmt"
 
-	"github.com/ZephaX7/projet-red_/src/Inventory"
+	"github.com/ZephaX7/projet-red/src/Inventory"
 )
 
 func Shop() {
@@ -53,19 +53,17 @@ func Shop() {
 
 		// Achat normal
 		if Gold >= prices[choice-1] {
+			// Vérifier si l'inventaire est plein
+			if len(Inventory.Inventaire) >= Inventory.CapaciteMax {
+				fmt.Println("Votre inventaire est plein, vous ne pouvez rien acheter de plus.")
+				continue // retourne au début de la boucle pour choisir autre chose
+			}
+
 			Gold -= prices[choice-1]
 			bought = append(bought, items[choice-1])
 			fmt.Println("Vous avez acheté", items[choice-1])
 		} else {
 			fmt.Println("Vous n'avez pas assez d'or.")
 		}
-	}
-
-	// On envoie chaque article acheté dans l'inventaire
-	for _, itemName := range bought {
-		Inventory.AddInventory(Inventory.Objet{
-			Nom:      itemName,
-			Quantite: 1,
-		})
 	}
 }
