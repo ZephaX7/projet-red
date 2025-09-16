@@ -4,11 +4,11 @@ import (
 	"fmt"
 )
 
-<<<<<<< HEAD
+
 func Menu_character() {
-=======
+
 func Menu_character(c *inventaire) {
->>>>>>> 27dc1b2bc4b47c2d2348ba89a210aff1bc1d27be
+
 	var Menu int
 	fmt.Println("1- Statistiques")
 	fmt.Println("2- Inventaire")
@@ -37,4 +37,5 @@ func Menu_character(c *inventaire) {
 
 func main() {
 	Menu_character()
+}
 }
