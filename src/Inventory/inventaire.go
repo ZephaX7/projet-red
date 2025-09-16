@@ -14,7 +14,7 @@ const CapaciteMax = 10
 
 // Affiche l'inventaire
 func AccessInventory() {
-	fmt.Println("📦 Voici votre inventaire :")
+	fmt.Println("Voici votre inventaire :")
 	if len(Inventaire) == 0 {
 		fmt.Println("   (vide)")
 	} else {
@@ -29,7 +29,7 @@ func AccessInventory() {
 func AddInventory(objet Objet) {
 	// Vérifier la capacité max
 	if len(Inventaire) >= CapaciteMax {
-		fmt.Println("❌ Inventaire plein ! Impossible d'ajouter :", objet.Nom)
+		fmt.Println("Inventaire plein ! Impossible d'ajouter :", objet.Nom)
 		return
 	}
 
@@ -54,7 +54,7 @@ func RemoveInventory(objet Objet) {
 			Inventaire[i].Quantite -= objet.Quantite
 			if Inventaire[i].Quantite <= 0 {
 				Inventaire = append(Inventaire[:i], Inventaire[i+1:]...)
-				fmt.Printf("❌ %s retiré de l'inventaire.\n", objet.Nom)
+				fmt.Printf("%s retiré de l'inventaire.\n", objet.Nom)
 			} else {
 				fmt.Printf("Vous avez maintenant %d %s.\n", Inventaire[i].Quantite, objet.Nom)
 			}
