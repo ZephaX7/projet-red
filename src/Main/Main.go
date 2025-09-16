@@ -39,8 +39,8 @@ func menu() {
 }
 
 func main() {
-	continuer := true
 
+	menu := true
 	// --- Lecture musique ---
 	f, err := os.Open("Bienvenue-en-Gaule.mp3")
 	if err != nil {
@@ -68,7 +68,8 @@ func main() {
 	fmt.Println(string(Menu))
 
 	// --- Boucle principale ---
-	for continuer {
+	if menu {
+
 		fmt.Println("Que voulez-vous faire ?")
 		fmt.Println("1 - Jouer")
 		fmt.Println("2 - Afficher le Lore")
@@ -88,8 +89,9 @@ func main() {
 			}
 			fmt.Println(string(Demarage))
 			fmt.Println()
-			continuer = false
+			menu = false
 			PersonalisationPersonnage.ChoixRace()
+
 		case 2:
 			fmt.Println("Ouverture du Lore...")
 			fmt.Println()
@@ -117,7 +119,7 @@ func main() {
 
 		case 3:
 			fmt.Println("Au revoir !")
-			continuer = false
+			menu = false
 			streamer.Close()
 		default:
 			fmt.Println("Choix invalide, réessayez.")
