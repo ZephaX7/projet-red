@@ -1,6 +1,8 @@
-package Personalisation_Personnage
+package PersonalisationPersonnage
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func ChoixRace() bool {
 	var choix string
@@ -87,7 +89,31 @@ func Choisir_Nom() string {
 		return Choisir_Nom()
 	}
 }
+func PointdeVie() {
+	race := 0
+	switch race {
+	case "1":
+		fmt.Println("Vous avez 50 points de vie actuellement, et vous pouvez en avoir jusqu'à 100 étant humain.")
+	case "2":
+		fmt.Println("Vous avez 40 points de vie actuellement, et vous pouvez en avoir jusqu'à 80 étant elfe.")
+	case "3":
+		fmt.Println("Vous avez 60 points de vie actuellement, et vous pouvez en avoir jusqu'à 120 étant nain.")
 
-fmt.Println("Vous avez 50 points de vie actuellement, et vous pouvez en avoir jusqu'à 100 étant humain.")
-fmt.Println("Vous avez 40 points de vie actuellement, et vous pouvez en avoir jusqu'à 80 étant elfe.")
-fmt.Println("Vous avez 60 points de vie actuellement, et vous pouvez en avoir jusqu'à 120 étant nain.")
+	}
+}
+func Choisir_Nom() string {
+	var nom string
+	fmt.Println("Entrez le nom de votre personnage :")
+	fmt.Scanln(&nom)
+	fmt.Print("Votre personnage s'appelle : ", nom, "\n")
+	fmt.Println("Etes vous sur? (oui/non)")
+	var reponse string
+	fmt.Scanln(&reponse)
+	if reponse == "oui" {
+		fmt.Println("Bienvenue dans le monde de Aerthar (", nom, ").")
+		return nom
+	} else {
+		fmt.Println("Veuillez choisir un autre nom.")
+		return Choisir_Nom()
+	}
+}
