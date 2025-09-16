@@ -1,0 +1,5 @@
+package PrintLore
+
+func PrintLore() {
+
+}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package combat
 
 import (
@@ -11,3 +12,10 @@ import (
 func combat{
 	
 }
+=======
+package combat
+
+func combat() {
+
+}
+>>>>>>> 70960afda4ca951370b46da5059d752b6b762086

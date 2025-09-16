@@ -2,6 +2,8 @@ package Shop
 
 import (
 	"fmt"
+
+	"github.com/ZephaX7/projet-red_/src/Inventory"
 )
 
 func Shop() {
@@ -13,13 +15,13 @@ func Shop() {
 		"Fourrure de Loup",
 		"Peau de Troll",
 	}
-	prices := []int{0, 3, 6, 25, 4, 7, 3, 1} // la première est gratuite
-	gold := 100
+	prices := []int{0, 3, 6, 25, 4, 7} // la première est gratuite
+	Gold := 100
 	bought := []string{}
 	freeTaken := false // pour l'article gratuit
 
 	for {
-		fmt.Printf("\nVous avez %d pièces d'or.\n", gold)
+		fmt.Printf("\nVous avez %d pièces d'or.\n", Gold)
 		for i, item := range items {
 			fmt.Printf("%d. %s - %d pièces d'or\n", i+1, item, prices[i])
 		}
@@ -50,8 +52,8 @@ func Shop() {
 		}
 
 		// Achat normal
-		if gold >= prices[choice-1] {
-			gold -= prices[choice-1]
+		if Gold >= prices[choice-1] {
+			Gold -= prices[choice-1]
 			bought = append(bought, items[choice-1])
 			fmt.Println("Vous avez acheté", items[choice-1])
 		} else {
@@ -59,5 +61,11 @@ func Shop() {
 		}
 	}
 
-	fmt.Println("Vos articles achetés :", bought)
+	// On envoie chaque article acheté dans l'inventaire
+	for _, itemName := range bought {
+		Inventory.AddInventory(Inventory.Objet{
+			Nom:      itemName,
+			Quantite: 1,
+		})
+	}
 }
