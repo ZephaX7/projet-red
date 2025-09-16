@@ -1,5 +1,0 @@
-package PrintLore
-
-func PrintLore() {
-
-}
