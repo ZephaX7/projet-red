@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	//"projet-red/src/Custom_Character/Personalisation_Personnage"
+	PersonalisationPersonnage "github.com/ZephaX7/projet-red/src/Custom_Character"
 
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/mp3"
@@ -83,13 +83,14 @@ func main() {
 		switch choix {
 		case 1:
 			Demarage, err := os.ReadFile("ascii_Demarage.txt")
+			//police small shadow
 			if err != nil {
 				panic(err)
 			}
 			fmt.Println(string(Demarage))
 			fmt.Println()
 			continuer = false
-			//Personalisation_Personnage.ChoixRace()
+			PersonalisationPersonnage.ChoixRace()
 		case 2:
 			fmt.Println("Ouverture du Lore...")
 			fmt.Println()
