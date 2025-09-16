@@ -14,8 +14,10 @@ func Shop() {
 		"Livre de Sort : Boule de feu",
 		"Fourrure de Loup",
 		"Peau de Troll",
+		"Cuir de Sanglier",
+		"Plume de Corebeaux",
 	}
-	prices := []int{0, 3, 6, 25, 4, 7} // la première est gratuite
+	prices := []int{0, 3, 6, 25, 4, 7, 3, 1} // la première est gratuite
 	Gold := 100
 	bought := []string{}
 	freeTaken := false // pour l'article gratuit
