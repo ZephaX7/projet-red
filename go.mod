@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-module projet-red
-
-go 1.21
-
-require (
-	github.com/faiface/beep v1.1.0 // indirect
-=======
 module github.com/ZephaX7/projet-red
 
 go 1.25.0
@@ -13,7 +5,7 @@ go 1.25.0
 require github.com/faiface/beep v1.1.0
 
 require (
->>>>>>> d924c55906513b10be81c5ff50121a4101a301fd
+
 	github.com/hajimehoshi/go-mp3 v0.3.0 // indirect
 	github.com/hajimehoshi/oto v0.7.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
