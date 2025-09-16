@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"projet-red/src/Custom_Character/Personalisation_Personnage"
+	//"projet-red/src/Custom_Character/Personalisation_Personnage"
 
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/mp3"
@@ -89,7 +89,7 @@ func main() {
 			fmt.Println(string(Demarage))
 			fmt.Println()
 			continuer = false
-			Personalisation_Personnage.ChoixRace()
+			//Personalisation_Personnage.ChoixRace()
 		case 2:
 			fmt.Println("Ouverture du Lore...")
 			fmt.Println()
