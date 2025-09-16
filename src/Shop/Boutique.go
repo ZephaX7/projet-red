@@ -1,27 +1,71 @@
-package Boutique
+package Shop
 
-import "fmt"
+import (
+	"fmt"
 
-func boutique() {
-	var shop string
-	fmt.Println("Choisissez votre race (1, 2 ou 3) : ") //MODIFIER TOUS LES TRUCS DE PERSOS EN ACHAT
-	fmt.Println("1. Humain (adapté à la classe guerrier)")
-	fmt.Println("2. Elfe (adapté à la classe mage)")
-	fmt.Println("3. Nain (adapté à la classe assassin)")
-	fmt.Scanln(&shop)
+	"github.com/ZephaX7/projet-red_/src/Inventory"
+)
 
-	switch shop {
-	case "1":
-		fmt.Println("Vous avez choisi la race Humain.")
-		return true
-	case "2":
-		fmt.Println("Vous avez choisi la race Elfe.")
-		return true
-	case "3":
-		fmt.Println("Vous avez choisi la race Nain.")
-		return true
-	default:
-		fmt.Println("Choix invalide. Veuillez choisir 1, 2 ou 3.")
-		return false
+func Shop() {
+	items := []string{
+		"Potion de soin gratuite(C'est pour toi bg,cadeau de la maison. Par contre si tu l'uses pour rien, je vais te retrouver donc fais gaffe à toi)",
+		"Potion de soin",
+		"Potion de poison",
+		"Livre de Sort : Boule de feu",
+		"Fourrure de Loup",
+		"Peau de Troll",
+	}
+	prices := []int{0, 3, 6, 25, 4, 7} // la première est gratuite
+	Gold := 100
+	bought := []string{}
+	freeTaken := false // pour l'article gratuit
+
+	for {
+		fmt.Printf("\nVous avez %d pièces d'or.\n", Gold)
+		for i, item := range items {
+			fmt.Printf("%d. %s - %d pièces d'or\n", i+1, item, prices[i])
+		}
+		fmt.Println("Entrez le numéro de l'article à acheter (ou 0 pour quitter) :")
+
+		var choice int
+		fmt.Scan(&choice)
+
+		if choice == 0 {
+			break
+		}
+		if choice < 1 || choice > len(items) {
+			fmt.Println("Choix invalide.")
+			continue
+		}
+
+		// Vérification de l'article gratuit
+		if prices[choice-1] == 0 {
+			if freeTaken {
+				fmt.Println("Vous ne pouvez prendre cet article gratuit qu'une seule fois !")
+				continue
+			} else {
+				bought = append(bought, items[choice-1])
+				freeTaken = true
+				fmt.Println("Vous avez pris", items[choice-1])
+				continue
+			}
+		}
+
+		// Achat normal
+		if Gold >= prices[choice-1] {
+			Gold -= prices[choice-1]
+			bought = append(bought, items[choice-1])
+			fmt.Println("Vous avez acheté", items[choice-1])
+		} else {
+			fmt.Println("Vous n'avez pas assez d'or.")
+		}
+	}
+
+	// On envoie chaque article acheté dans l'inventaire
+	for _, itemName := range bought {
+		Inventory.AddInventory(Inventory.Objet{
+			Nom:      itemName,
+			Quantite: 1,
+		})
 	}
 }
