@@ -94,27 +94,37 @@ func AppliquerEffetsEquipement() {
 
 func AfficherStats() {
 	fmt.Println("Nom :", Joueur.Nom)
+
 	fmt.Println("Race :", Joueur.Race)
+
 	fmt.Println("Classe :", Joueur.Classe)
+
 	fmt.Println("Sexe :", Joueur.Sexe)
+	fmt.Println()
 	fmt.Printf("PV : %d/%d\n", Joueur.PvActuels, Joueur.PvMax)
+	fmt.Println()
 
 	fmt.Println("Équipement :")
 	if Joueur.Equip.Head == "" {
 		fmt.Println(" - Tête : rien")
+
 	} else {
 		fmt.Println(" - Tête :", Joueur.Equip.Head)
+
 	}
 
 	if Joueur.Equip.Torso == "" {
 		fmt.Println(" - Torse : rien")
+
 	} else {
 		fmt.Println(" - Torse :", Joueur.Equip.Torso)
+
 	}
 
 	if Joueur.Equip.Feet == "" {
 		fmt.Println(" - Pieds : rien")
-	} else {
+
 		fmt.Println(" - Pieds :", Joueur.Equip.Feet)
+
 	}
 }
