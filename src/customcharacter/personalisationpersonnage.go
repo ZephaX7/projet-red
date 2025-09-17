@@ -1,43 +1,61 @@
 package personalisationpersonnage
 
 import (
-	"bufio"
-	"fmt"
-	"os"
-	"strconv"
-	"strings"
+    "bufio"
+    "fmt"
+    "os"
+    "strconv"
+    "strings"
 )
 
 var reader = bufio.NewReader(os.Stdin)
 
-func ChoixRace() int {
-	fmt.Println("1. Humain (adapté à la classe guerrier)")
-	fmt.Println("2. Elfe (adapté à la classe mage)")
-	fmt.Println("3. Nain (adapté à la classe assassin)")
-	fmt.Println()
+// --------- Utilitaires de lecture ----------
 
-	fmt.Print("Choisissez votre race (1, 2 ou 3) : ")
-	input, _ := reader.ReadString('\n')
-	input = strings.TrimSpace(input)
-	choix, err := strconv.Atoi(input)
-	if err != nil {
-		fmt.Println("Entrée invalide.")
-		return 0
-	}
-
-	switch choix {
-	case 1:
-		fmt.Println("Vous avez choisi la race Humain.")
-	case 2:
-		fmt.Println("Vous avez choisi la race Elfe.")
-	case 3:
-		fmt.Println("Vous avez choisi la race Nain.")
-	default:
-		fmt.Println("Choix invalide. Veuillez choisir 1, 2 ou 3.")
-		return 0
-	}
-	return choix
+func lireLigne(prompt string) (string, error) {
+    fmt.Print(prompt)
+    s, err := reader.ReadString('\n')
+    // Même en cas d'err, si on a lu qqch, on le traite quand même
+    s = strings.TrimSpace(s)
+    return s, err
 }
+
+func lireChoixInt(prompt string, min, max int) int {
+    for {
+        s, _ := lireLigne(prompt)
+        if s == "" {
+            // Ligne vide -> on redemande sans bruit
+            continue
+        }
+        n, err := strconv.Atoi(s)
+        if err != nil || n < min || n > max {
+            if min == max {
+                fmt.Printf("Choix invalide. Veuillez choisir %d.\n", min)
+            } else {
+                fmt.Printf("Choix invalide. Veuillez choisir un nombre entre %d et %d.\n", min, max)
+            }
+            continue
+        }
+        return n
+    }
+}
+
+// ------------- Menus -----------------------
+
+func ChoixRace() int {
+    fmt.Println("1. Humain (adapté à la classe guerrier)")
+    fmt.Println("2. Elfe (adapté à la classe mage)")
+    fmt.Println("3. Nain (adapté à la classe assassin)")
+    fmt.Println()
+}
+    choix := lireChoixInt("Choisissez votre race (1, 2 ou 3) : ", 1, 3)
+    switch choix {
+    case 1:
+        fmt.Println("Vous avez choisi la race Humain.")
+    case 2:
+        fmt.Println("Vous avez choisi la race Elfe.")
+    case 3:
+	}   
 
 func ChoixClasse() int {
 	fmt.Println("1. Guerrier")

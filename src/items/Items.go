@@ -3,6 +3,7 @@ package items
 import (
 	"fmt"
 	"projet-red/src/inventory"
+	statspersonnage "projet-red/src/stats"
 	"time"
 )
 
@@ -13,12 +14,12 @@ func takePot() {
 			inventory.Inventaire[i].Quantite -= 1
 
 			// Soigner le joueur
-			Player.Joueur.PV += 50
-			if Player.Joueur.PV > Player.Joueur.PVMax {
-				Player.Joueur.PV = Player.Joueur.PVMax
+			statspersonnage.AfficherStatsPersonnage.pvActuels += 50
+			if statspersonnage.AfficherStatsPersonnage.pvActuels > Player.Joueur.PVMax {
+				statspersonnage.AfficherStatsPersonnage.pvActuels = Player.Joueur.PVMax
 			}
 
-			fmt.Printf("Vous avez utilisé une Potion de soin. PV actuels : %d/%d\n", Player.Joueur.PV, Player.Joueur.PVMax)
+			fmt.Printf("Vous avez utilisé une Potion de soin. PV actuels : %d/%d\n", statspersonnage.AfficherStatsPersonnage.pvActuels, Player.Joueur.PVMax)
 			return
 		}
 	}
@@ -35,11 +36,11 @@ func PoisonPot(cible string) {
 			// Inflige 10 dégâts par seconde pendant 3 secondes
 			for t := 1; t <= 3; t++ {
 				if cible == "joueur" {
-					Player.Joueur.PV -= 10
-					if Player.Joueur.PV < 0 {
-						Player.Joueur.PV = 0
+					statspersonnage.AfficherStatsPersonnage.pvActuels -= 10
+					if statspersonnage.AfficherStatsPersonnage.pvActuels < 0 {
+						statspersonnage.AfficherStatsPersonnage.pvActuels = 0
 					}
-					fmt.Printf("Seconde %d : PV du joueur = %d/%d\n", t, Player.Joueur.PV, Player.Joueur.PVMax)
+					fmt.Printf("Seconde %d : PV du joueur = %d/%d\n", t, statspersonnage.AfficherStatsPersonnage.pvActuels, statspersonnage.AfficherStatsPersonnage.pvMax)
 				} else if cible == "ennemi" {
 					// Ici tu peux gérer les PV de l'ennemi
 					fmt.Printf("Seconde %d : L'ennemi perd 10 PV\n", t)
