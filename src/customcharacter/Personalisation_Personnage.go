@@ -1,16 +1,29 @@
 package PersonalisationPersonnage
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strconv"
+	"strings"
 )
 
+var reader = bufio.NewReader(os.Stdin)
+
 func ChoixRace() int {
-	var choix int
-	fmt.Println("Choisissez votre race (1, 2 ou 3) : ")
 	fmt.Println("1. Humain (adapté à la classe guerrier)")
 	fmt.Println("2. Elfe (adapté à la classe mage)")
 	fmt.Println("3. Nain (adapté à la classe assassin)")
-	fmt.Scanln(&choix)
+	fmt.Println()
+
+	fmt.Print("Choisissez votre race (1, 2 ou 3) : ")
+	input, _ := reader.ReadString('\n')
+	input = strings.TrimSpace(input)
+	choix, err := strconv.Atoi(input)
+	if err != nil {
+		fmt.Println("Entrée invalide.")
+		return 0
+	}
 
 	switch choix {
 	case 1:
@@ -27,20 +40,25 @@ func ChoixRace() int {
 }
 
 func ChoixClasse() int {
-	var choix int
-	fmt.Println("Choisissez votre classe (1, 2 ou 3) :")
 	fmt.Println("1. Guerrier")
 	fmt.Println("2. Mage")
 	fmt.Println("3. Assassin")
-	fmt.Scanln(&choix)
+	fmt.Println()
+
+	var choix int
+	fmt.Print("Choisissez votre classe (1, 2 ou 3) :")
+	fmt.Scan(&choix)
 
 	switch choix {
 	case 1:
 		fmt.Println("Vous avez choisi le Guerrier.")
+		ChoixSexe()
 	case 2:
 		fmt.Println("Vous avez choisi le Mage.")
+		ChoixSexe()
 	case 3:
 		fmt.Println("Vous avez choisi l'Assassin.")
+		ChoixSexe()
 	default:
 		fmt.Println("Choix invalide. Veuillez choisir 1, 2 ou 3.")
 		return 0
@@ -49,20 +67,25 @@ func ChoixClasse() int {
 }
 
 func ChoixSexe() int {
-	var choix int
-	fmt.Println("Choisissez le sexe de votre personnage (1, 2 ou 3) :")
 	fmt.Println("1. Masculin")
 	fmt.Println("2. Féminin")
 	fmt.Println("3. Autre")
-	fmt.Scanln(&choix)
+	fmt.Println()
+
+	var choix int
+	fmt.Print("Choisissez le sexe de votre personnage (1, 2 ou 3) :")
+	fmt.Scan(&choix)
 
 	switch choix {
 	case 1:
 		fmt.Println("Vous avez choisi le sexe Masculin.")
+		ChoisirNom()
 	case 2:
 		fmt.Println("Vous avez choisi le sexe Féminin.")
+		ChoisirNom()
 	case 3:
 		fmt.Println("Vous avez choisi Autre.")
+		ChoisirNom()
 	default:
 		fmt.Println("Choix invalide. Veuillez choisir 1, 2 ou 3.")
 		return 0
@@ -72,18 +95,31 @@ func ChoixSexe() int {
 
 func ChoisirNom() string {
 	var nom string
-	fmt.Println("Entrez le nom de votre personnage :")
+	fmt.Print("Entrez le nom de votre personnage :")
 	fmt.Scanln(&nom)
+
+	var reponse string
 	fmt.Print("Votre personnage s'appelle : ", nom, "\n")
 	fmt.Println("Êtes-vous sûr ? (oui/non)")
-	var reponse string
-	fmt.Scanln(&reponse)
-	if reponse == "oui" {
+
+	switch reponse {
+	case "oui":
 		fmt.Println("Bienvenue dans le monde de Aerthar (", nom, ").")
+		if ChoixRace() == 1 {
+			PointdeVie(1)
+		}
+		if ChoixRace() == 2 {
+			PointdeVie(2)
+		}
+		if ChoixRace() == 3 {
+			PointdeVie(3)
+		}
 		return nom
-	} else {
+
+	default:
 		fmt.Println("Veuillez choisir un autre nom.")
 		return ChoisirNom()
+
 	}
 }
 
