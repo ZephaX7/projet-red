@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"projet-red/src/hub"
 )
 
 var reader = bufio.NewReader(os.Stdin)
@@ -158,6 +160,7 @@ func CreerPersonnageInteractif() (nom, race, classe, sexe string) {
 
 	// Afficher les PV initiaux en fonction de la race
 	PointdeVie(race)
-
+	hub.Hub()
 	return nom, race, classe, sexe
+
 }

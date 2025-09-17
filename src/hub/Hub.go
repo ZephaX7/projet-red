@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	Menu "github.com/ZephaX7/projet-red/src/charactermenu"
+	Menu "projet-red/src/charactermenu"
 )
 
 func main() {
@@ -34,7 +34,7 @@ func Hub() {
 		}
 		fmt.Println(string(Menu_tab))
 		fmt.Println()
-		Menu.Menu_character()
+		Menu.AfficherMenu()
 	default:
 		fmt.Println("Choix invalide, réessayez.")
 	}

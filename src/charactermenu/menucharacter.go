@@ -3,7 +3,6 @@ package menu
 import (
 	"fmt"
 )
-func Menu_character() {
 
 func Menu_character() {
 	var Menu int
@@ -32,7 +31,6 @@ func Menu_character() {
 
 }
 
-func main() {
+func AfficherMenu() {
 	Menu_character()
-}
 }
