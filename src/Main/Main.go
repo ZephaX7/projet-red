@@ -1,6 +1,8 @@
 package main
 
-func main() {
+import "github.com/ZephaX7/projet-red/src/menu"
 
-	return
+func main() {
+	// On démarre le menu principal
+	menu.RunMenu()
 }
