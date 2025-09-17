@@ -1,11 +1,11 @@
 package personalisationpersonnage
 
 import (
-    "bufio"
-    "fmt"
-    "os"
-    "strconv"
-    "strings"
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
 )
 
 var reader = bufio.NewReader(os.Stdin)
@@ -13,143 +13,151 @@ var reader = bufio.NewReader(os.Stdin)
 // --------- Utilitaires de lecture ----------
 
 func lireLigne(prompt string) (string, error) {
-    fmt.Print(prompt)
-    s, err := reader.ReadString('\n')
-    // Même en cas d'err, si on a lu qqch, on le traite quand même
-    s = strings.TrimSpace(s)
-    return s, err
+	fmt.Print(prompt)
+	s, err := reader.ReadString('\n')
+	s = strings.TrimSpace(s)
+	return s, err
 }
 
 func lireChoixInt(prompt string, min, max int) int {
-    for {
-        s, _ := lireLigne(prompt)
-        if s == "" {
-            // Ligne vide -> on redemande sans bruit
-            continue
-        }
-        n, err := strconv.Atoi(s)
-        if err != nil || n < min || n > max {
-            if min == max {
-                fmt.Printf("Choix invalide. Veuillez choisir %d.\n", min)
-            } else {
-                fmt.Printf("Choix invalide. Veuillez choisir un nombre entre %d et %d.\n", min, max)
-            }
-            continue
-        }
-        return n
-    }
+	for {
+		s, _ := lireLigne(prompt)
+		if s == "" {
+			// Ligne vide -> on redemande sans bruit
+			continue
+		}
+		n, err := strconv.Atoi(s)
+		if err != nil || n < min || n > max {
+			if min == max {
+				fmt.Printf("Choix invalide. Veuillez choisir %d.\n", min)
+			} else {
+				fmt.Printf("Choix invalide. Veuillez choisir un nombre entre %d et %d.\n", min, max)
+			}
+			continue
+		}
+		return n
+	}
 }
 
 // ------------- Menus -----------------------
 
-func ChoixRace() int {
-    fmt.Println("1. Humain (adapté à la classe guerrier)")
-    fmt.Println("2. Elfe (adapté à la classe mage)")
-    fmt.Println("3. Nain (adapté à la classe assassin)")
-    fmt.Println()
-}
-    choix := lireChoixInt("Choisissez votre race (1, 2 ou 3) : ", 1, 3)
-    switch choix {
-    case 1:
-        fmt.Println("Vous avez choisi la race Humain.")
-    case 2:
-        fmt.Println("Vous avez choisi la race Elfe.")
-    case 3:
-	}   
+func ChoixRace() string {
+	fmt.Println("1. Humain (adapté à la classe guerrier)")
+	fmt.Println("2. Elfe (adapté à la classe mage)")
+	fmt.Println("3. Nain (adapté à la classe assassin)")
+	fmt.Println()
 
-func ChoixClasse() int {
+	race := ""
+	choix := lireChoixInt("Choisissez votre race (1, 2 ou 3) : ", 1, 3)
+	switch choix {
+	case 1:
+		fmt.Println("Vous avez choisi la race Humain.")
+		race = "Humain"
+	case 2:
+		fmt.Println("Vous avez choisi la race Elfe.")
+		race = "Elfe"
+	case 3:
+		fmt.Println("Vous avez choisi la race Nain.")
+		race = "Nain"
+	}
+	return race
+}
+
+func ChoixClasse() string {
 	fmt.Println("1. Guerrier")
 	fmt.Println("2. Mage")
 	fmt.Println("3. Assassin")
 	fmt.Println()
 
-	var choix int
-	fmt.Print("Choisissez votre classe (1, 2 ou 3) :")
-	fmt.Scan(&choix)
-
+	class := ""
+	choix := lireChoixInt("Choisissez votre classe (1, 2 ou 3) : ", 1, 3)
 	switch choix {
 	case 1:
 		fmt.Println("Vous avez choisi le Guerrier.")
-		ChoixSexe()
+		class = "Guerrier"
 	case 2:
 		fmt.Println("Vous avez choisi le Mage.")
-		ChoixSexe()
+		class = "Mage"
 	case 3:
 		fmt.Println("Vous avez choisi l'Assassin.")
-		ChoixSexe()
-	default:
-		fmt.Println("Choix invalide. Veuillez choisir 1, 2 ou 3.")
-		return 0
+		class = "Assassin"
 	}
-	return choix
+	return class
 }
 
-func ChoixSexe() int {
+func ChoixSexe() string {
 	fmt.Println("1. Masculin")
 	fmt.Println("2. Féminin")
 	fmt.Println("3. Autre")
 	fmt.Println()
 
-	var choix int
-	fmt.Print("Choisissez le sexe de votre personnage (1, 2 ou 3) :")
-	fmt.Scan(&choix)
-
+	sexe := ""
+	choix := lireChoixInt("Choisissez le sexe de votre personnage (1, 2 ou 3) : ", 1, 3)
 	switch choix {
 	case 1:
 		fmt.Println("Vous avez choisi le sexe Masculin.")
-		ChoisirNom()
+		sexe = "homme"
 	case 2:
 		fmt.Println("Vous avez choisi le sexe Féminin.")
-		ChoisirNom()
+		sexe = "femme"
 	case 3:
 		fmt.Println("Vous avez choisi Autre.")
-		ChoisirNom()
-	default:
-		fmt.Println("Choix invalide. Veuillez choisir 1, 2 ou 3.")
-		return 0
+		sexe = "autre"
 	}
-	return choix
+	return sexe
 }
 
 func ChoisirNom() string {
-	var nom string
-	fmt.Print("Entrez le nom de votre personnage :")
-	fmt.Scanln(&nom)
-
-	var reponse string
-	fmt.Print("Votre personnage s'appelle : ", nom, "\n")
-	fmt.Println("Êtes-vous sûr ? (oui/non)")
-
-	switch reponse {
-	case "oui":
-		fmt.Println("Bienvenue dans le monde de Aerthar (", nom, ").")
-		if ChoixRace() == 1 {
-			PointdeVie(1)
+	for {
+		nom, _ := lireLigne("Entrez le nom de votre personnage : ")
+		if nom == "" {
+			fmt.Println("Le nom ne peut pas être vide.")
+			continue
 		}
-		if ChoixRace() == 2 {
-			PointdeVie(2)
-		}
-		if ChoixRace() == 3 {
-			PointdeVie(3)
-		}
-		return nom
 
-	default:
-		fmt.Println("Veuillez choisir un autre nom.")
-		return ChoisirNom()
-
+		fmt.Printf("Votre personnage s'appelle : %s\n", nom)
+		reponse, _ := lireLigne("Êtes-vous sûr ? (oui/non) : ")
+		switch strings.ToLower(strings.TrimSpace(reponse)) {
+		case "oui", "o", "y", "yes":
+			fmt.Printf("Bienvenue dans le monde de Aerthar (%s).\n", nom)
+			// ❌ Surtout PAS d'appel à CreerPersonnageInteractif() ici !
+			return nom
+		case "non", "n", "no":
+			fmt.Println("D'accord, recommençons.")
+			continue
+		default:
+			fmt.Println("Réponse non reconnue. Tape 'oui' ou 'non'.")
+			continue
+		}
 	}
 }
 
-func PointdeVie(race int) {
+// ----------------- PV par race -----------------
+
+func PointdeVie(race string) {
 	switch race {
-	case 1:
+	case "Humain":
 		fmt.Println("Vous avez 50 points de vie actuellement, et vous pouvez en avoir jusqu'à 100 étant humain.")
-	case 2:
+	case "Elfe":
 		fmt.Println("Vous avez 40 points de vie actuellement, et vous pouvez en avoir jusqu'à 80 étant elfe.")
-	case 3:
+	case "Nain":
 		fmt.Println("Vous avez 60 points de vie actuellement, et vous pouvez en avoir jusqu'à 120 étant nain.")
 	default:
 		fmt.Println("Race inconnue")
 	}
+}
+
+// ------------- Orchestrateur ------------------
+
+// CreerPersonnageInteractif lance le flux complet et affiche les PV selon la race.
+func CreerPersonnageInteractif() (nom, race, classe, sexe string) {
+	race = ChoixRace()
+	classe = ChoixClasse()
+	sexe = ChoixSexe()
+	nom = ChoisirNom()
+
+	// Afficher les PV initiaux en fonction de la race
+	PointdeVie(race)
+
+	return nom, race, classe, sexe
 }
