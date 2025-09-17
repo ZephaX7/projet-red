@@ -68,11 +68,7 @@ func RunMenu() {
 
 		switch choix {
 		case 1:
-<<<<<<< HEAD
-			Demarage, err := os.ReadFile("ascii_Demarage.txt")
-=======
 			Demarage, err := os.ReadFile("asciidemarage.txt")
->>>>>>> cfcce5e31f6d6e5e6ac6cf538e654a6c81079104
 			if err != nil {
 				panic(err)
 			}
@@ -94,7 +90,7 @@ func RunMenu() {
 			streamer.Close()
 
 			// Charger et jouer la musique du Lore
-			f2, err := os.Open("GilraensMemorial.mp3")
+			f2, err := os.Open("Sauron.mp3")
 			if err != nil {
 				log.Fatal(err)
 			}
