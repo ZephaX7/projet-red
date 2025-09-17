@@ -7,11 +7,15 @@ import (
 )
 
 func Menu_character() {
-	var Menu int
 	fmt.Println("1- Statistiques")
 	fmt.Println("2- Inventaire")
 	fmt.Println("3- Boutique")
 	fmt.Println("4- Retour")
+
+	var Menu int
+	fmt.Println("Entrez votre choix :")
+	fmt.Scanln(&Menu)
+
 	switch Menu {
 	case 1:
 		fmt.Println("ouverture des Statistiques...")
