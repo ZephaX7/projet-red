@@ -2,8 +2,7 @@ package forgeron
 
 import (
 	"fmt"
-
-	"github.com/ZephaX7/projet-red/src/Inventory"
+	"projet-red/src/inventory"
 )
 
 type Material struct {
@@ -66,7 +65,7 @@ func Shop() {
 		canBuy := true
 		for _, m := range cost.Materials {
 			found := false
-			for _, obj := range Inventory.Inventaire {
+			for _, obj := range inventory.Inventaire {
 				if obj.Nom == m.Name && obj.Quantite >= m.Quantity {
 					found = true
 					break
@@ -82,7 +81,7 @@ func Shop() {
 		}
 
 		// Vérifier l'inventaire pour l'objet final
-		if len(Inventory.Inventaire) >= Inventory.CapaciteMax {
+		if len(inventory.Inventaire) >= inventory.CapaciteMax {
 			fmt.Println("Votre inventaire est plein, vous ne pouvez rien acheter de plus.")
 			continue
 		}
@@ -92,14 +91,14 @@ func Shop() {
 
 		// Retirer les matériaux
 		for _, m := range cost.Materials {
-			Inventory.RemoveInventory(Inventory.Objet{
+			inventory.RemoveInventory(inventory.Objet{
 				Nom:      m.Name,
 				Quantite: m.Quantity,
 			})
 		}
 
 		// Ajouter l'objet fabriqué
-		Inventory.AddInventory(Inventory.Objet{
+		inventory.AddInventory(inventory.Objet{
 			Nom:      items[choice-1],
 			Quantite: 1,
 			Type:     "Équipement",

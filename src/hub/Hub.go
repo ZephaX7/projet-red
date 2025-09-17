@@ -23,7 +23,7 @@ func Hub() {
 	case 1:
 		fmt.Println("L'aventure commence !")
 	case 2:
-		Menu_tab, err := os.ReadFile("asciimenu.txt")
+		Menu_tab, err := os.ReadFile("src/hub/asciimenu.txt")
 		//police small shadow
 		if err != nil {
 			panic(err)
