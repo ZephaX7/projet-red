@@ -3,7 +3,7 @@ package shop
 import (
 	"fmt"
 
-	"github.com/ZephaX7/projet-red/src/Inventory"
+	"github.com/!zepha!x7/projet-red_/src/inventory"
 )
 
 func Shop() {
@@ -48,11 +48,11 @@ func Shop() {
 				fmt.Println("⚠ Vous ne pouvez prendre cet article gratuit qu'une seule fois !")
 				continue
 			}
-			if len(Inventory.Inventaire) >= Inventory.CapaciteMax {
+			if len(inventory.Inventaire) >= inventory.CapaciteMax {
 				fmt.Println("Votre inventaire est plein, impossible de prendre l'objet gratuit.")
 				continue
 			}
-			Inventory.AddInventory(Inventory.Objet{Nom: itemName, Quantite: 1, Type: "Objet"})
+			inventory.AddInventory(inventory.Objet{Nom: itemName, Quantite: 1, Type: "Objet"})
 			freeTaken = true
 			fmt.Println("Vous avez pris :", itemName)
 			continue
@@ -60,12 +60,12 @@ func Shop() {
 
 		// Achat normal
 		if Gold >= itemPrice {
-			if len(Inventory.Inventaire) >= Inventory.CapaciteMax {
+			if len(inventory.Inventaire) >= inventory.CapaciteMax {
 				fmt.Println("Votre inventaire est plein, vous ne pouvez rien acheter de plus.")
 				continue
 			}
 			Gold -= itemPrice
-			Inventory.AddInventory(Inventory.Objet{Nom: itemName, Quantite: 1, Type: "Objet"})
+			inventory.AddInventory(inventory.Objet{Nom: itemName, Quantite: 1, Type: "Objet"})
 			fmt.Println("Vous avez acheté :", itemName)
 		} else {
 			fmt.Println("Vous n'avez pas assez d'or.")
