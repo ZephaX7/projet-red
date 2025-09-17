@@ -2,16 +2,15 @@ package items
 
 import (
 	"fmt"
+	"projet-red/src/inventory"
 	"time"
-	"github.com/ZephaX7/projet-red/tree/main/src/stats"
 )
 
-
 func takePot() {
-	for i, item := range Inventaire {
+	for i, item := range inventory.Inventaire {
 		if item.Nom == "Potion de soin" && item.Quantite > 0 {
 			// Retirer la potion
-			Inventaire[i].Quantite -= 1
+			inventory.Inventaire[i].Quantite -= 1
 
 			// Soigner le joueur
 			Player.Joueur.PV += 50
@@ -27,10 +26,10 @@ func takePot() {
 }
 
 func PoisonPot(cible string) {
-	for i, item := range Inventaire {
+	for i, item := range inventory.Inventaire {
 		if item.Nom == "Potion de poison" && item.Quantite > 0 {
 			// Retirer la potion
-			Inventaire[i].Quantite -= 1
+			inventory.Inventaire[i].Quantite -= 1
 			fmt.Println("Vous avez utilisé une Potion de poison !")
 
 			// Inflige 10 dégâts par seconde pendant 3 secondes

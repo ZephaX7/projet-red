@@ -15,7 +15,7 @@ import (
 
 // Fonction qui affiche le menu (texte + ascii art)
 func afficherMenu() {
-	fmt.Println("Bienvenu dans les Chroniques d’Aerthar — Édition Terminal")
+	fmt.Println("Bienvenue dans les Chroniques d’Aerthar — Édition Terminal")
 	fmt.Println()
 
 	fmt.Println()
@@ -24,8 +24,6 @@ func afficherMenu() {
 		panic(err)
 	}
 	fmt.Println(string(Lore))
-
-	afficherMenu()
 
 	// Lire le fichier ASCII art
 	Menu, err := os.ReadFile("src/menu/asciimenu.txt")
