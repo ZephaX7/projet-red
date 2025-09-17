@@ -1,10 +1,15 @@
-package Hub
+package hub
 
 import (
 	"fmt"
 	"os"
+
+	Menu "github.com/ZephaX7/projet-red/src/charactermenu"
 )
 
+func main() {
+	Hub()
+}
 func Hub() {
 	fmt.Println("Que voulez-vous faire ?")
 
@@ -29,6 +34,7 @@ func Hub() {
 		}
 		fmt.Println(string(Menu_tab))
 		fmt.Println()
+		Menu.Menu_character()
 	default:
 		fmt.Println("Choix invalide, réessayez.")
 	}
