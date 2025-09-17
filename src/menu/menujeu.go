@@ -18,6 +18,15 @@ func afficherMenu() {
 	fmt.Println("Bienvenu dans les Chroniques d’Aerthar — Édition Terminal")
 	fmt.Println()
 
+	fmt.Println()
+	Lore, err := os.ReadFile("src/menu/Lore.txt")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(Lore))
+
+	afficherMenu()
+
 	// Lire le fichier ASCII art
 	Menu, err := os.ReadFile("src/menu/asciimenu.txt")
 	if err != nil {
@@ -28,8 +37,7 @@ func afficherMenu() {
 	fmt.Println("Que voulez-vous faire ?")
 	fmt.Println()
 	fmt.Println("1 - Jouer")
-	fmt.Println("2 - Afficher le Lore")
-	fmt.Println("3 - Quitter")
+	fmt.Println("2 - Quitter")
 	fmt.Println()
 }
 
@@ -79,34 +87,6 @@ func RunMenu() {
 			personalisationpersonnage.ChoixRace()
 
 		case 2:
-			fmt.Println("Ouverture du Lore...")
-			fmt.Println()
-			Lore, err := os.ReadFile("src/menu/Lore.txt")
-			if err != nil {
-				panic(err)
-			}
-			fmt.Println(string(Lore))
-
-			// 🔥 Arrêter la musique d'accueil
-			streamer.Close()
-
-			// Charger et jouer la musique du Lore
-			f2, err := os.Open("src/menu/Sauron.mp3")
-			if err != nil {
-				log.Fatal(err)
-			}
-			streamer2, _, err := mp3.Decode(f2)
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			go func() {
-				speaker.Play(streamer2)
-			}()
-
-			afficherMenu()
-
-		case 3:
 			fmt.Println("Au revoir !")
 			menu = false
 			streamer.Close()

@@ -5,7 +5,7 @@ import (
 )
 func Menu_character() {
 
-func Menu_character(c *inventaire) {
+func Menu_character() {
 	var Menu int
 	fmt.Println("1- Statistiques")
 	fmt.Println("2- Inventaire")
