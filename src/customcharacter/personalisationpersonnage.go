@@ -154,14 +154,14 @@ func (pz *Personnalisateur) lireChoixInt(prompt string, min, max int) int {
 
 // Menus (méthodes)
 func (pz *Personnalisateur) ChoixRace() Race {
-	fmt.Println("1. Humains (adapté à la classe guerrier)")
-	fmt.Println("2. Elfes (adapté à la classe mage)")
-	fmt.Println("3. Nains (adapté à la classe assassin)")
+	fmt.Println("1. Humain (adapté à la classe guerrier)")
+	fmt.Println("2. Elfe (adapté à la classe mage)")
+	fmt.Println("3. Nain (adapté à la classe assassin)")
 	fmt.Println()
 
 	n := pz.lireChoixInt("Choisissez votre race (1, 2 ou 3) : ", 1, 3)
 	r := Race(n)
-	fmt.Printf("Vous avez choisi la race des %s.\n", r)
+	fmt.Printf("Vous avez choisi la race %s.\n", r)
 	return r
 }
 

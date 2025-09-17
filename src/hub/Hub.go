@@ -30,7 +30,7 @@ func Hub() {
 		}
 		fmt.Println(string(Menu_tab))
 		fmt.Println()
-		menucharacter.Menu_character()
+		menucharacter.A()
 	default:
 		fmt.Println("Choix invalide, réessayez.")
 	}
