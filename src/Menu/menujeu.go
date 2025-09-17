@@ -52,18 +52,10 @@ func musiqueAccueil() (beep.StreamSeekCloser, beep.Format) {
 	return streamer, format
 }
 
-<<<<<<< HEAD:src/Menu/menujeu.go
-	Menu2, err := os.ReadFile("asciimenu.txt")
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(string(Menu2))
-=======
 // Fonction principale du menu
 func RunMenu() {
 	// Lance la musique d'accueil
 	streamer, _ := musiqueAccueil()
->>>>>>> e74c50a6a1bb9fec111fd8a611e78bbb0881c226:src/Menu/menujeu
 
 	// Affiche le menu une première fois
 	afficherMenu()
@@ -76,12 +68,7 @@ func RunMenu() {
 
 		switch choix {
 		case 1:
-<<<<<<< HEAD:src/Menu/menujeu.go
-			Demarage, err := os.ReadFile("asciidemarage.txt")
-			//police small shadow
-=======
 			Demarage, err := os.ReadFile("ascii_Demarage.txt")
->>>>>>> e74c50a6a1bb9fec111fd8a611e78bbb0881c226:src/Menu/menujeu
 			if err != nil {
 				panic(err)
 			}
