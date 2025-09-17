@@ -3,12 +3,9 @@ package hub
 import (
 	"fmt"
 	"os"
-	"projet-red/src/menu"
+	menucharacter "projet-red/src/charactermenu"
 )
 
-func main() {
-	Hub()
-}
 func Hub() {
 	fmt.Println("Que voulez-vous faire ?")
 
@@ -33,7 +30,7 @@ func Hub() {
 		}
 		fmt.Println(string(Menu_tab))
 		fmt.Println()
-		menu.AfficherMenu()
+		menucharacter.Menu_character()
 	default:
 		fmt.Println("Choix invalide, réessayez.")
 	}
