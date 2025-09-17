@@ -21,7 +21,7 @@ func menu() {
 	fmt.Println()
 
 	// Lire le fichier ASCII art
-	Menu, err := os.ReadFile("ascii_menu.txt")
+	Menu, err := os.ReadFile("asciimenu.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -57,11 +57,11 @@ func menu() {
 	fmt.Println("Bienvenu dans les Chroniques d’Aerthar — Édition Terminal")
 	fmt.Println()
 
-	Menu, err := os.ReadFile("ascii_menu.txt")
+	Menu2, err := os.ReadFile("asciimenu.txt")
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(string(Menu))
+	fmt.Println(string(Menu2))
 
 	// --- Boucle principale ---
 	if menu {
@@ -78,7 +78,7 @@ func menu() {
 
 		switch choix {
 		case 1:
-			Demarage, err := os.ReadFile("ascii_Demarage.txt")
+			Demarage, err := os.ReadFile("asciidemarage.txt")
 			//police small shadow
 			if err != nil {
 				panic(err)

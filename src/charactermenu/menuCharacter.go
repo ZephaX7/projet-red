@@ -1,18 +1,11 @@
-package Menu
+package menu
 
 import (
 	"fmt"
 )
-
-<<<<<<< HEAD
-func Menu_character() {
-=======
-
 func Menu_character() {
 
 func Menu_character(c *inventaire) {
-
->>>>>>> 18d5ef265bd63c7cec91a9404aad85791b9abbe6
 	var Menu int
 	fmt.Println("1- Statistiques")
 	fmt.Println("2- Inventaire")

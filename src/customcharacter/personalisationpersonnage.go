@@ -1,4 +1,4 @@
-package PersonalisationPersonnage
+package personalisationpersonnage
 
 import (
 	"bufio"

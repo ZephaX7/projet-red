@@ -1,4 +1,4 @@
-package StatsPersonnage
+package statspersonnage
 
 import "fmt"
 

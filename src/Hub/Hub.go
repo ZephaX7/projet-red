@@ -1,4 +1,4 @@
-package Hub
+package hub
 
 import (
 	"fmt"

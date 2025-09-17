@@ -1,4 +1,4 @@
-package Forgeron
+package forgeron
 
 import (
 	"fmt"
