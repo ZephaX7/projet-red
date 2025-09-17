@@ -1,13 +1,5 @@
 package combat
 
-import (
-	"fmt"
-	"math/rand"
-	"strings"
-	"time"
-)
-
-
-func combat{
-	
+func Combat() {
+	// TODO: Implement combat logic here
 }

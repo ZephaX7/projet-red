@@ -27,6 +27,7 @@ func Shop() {
 			fmt.Printf("%d. %s - %d pièces d'or\n", i+1, item, prices[i])
 		}
 		fmt.Println("Entrez le numéro de l'article à acheter (ou 0 pour quitter) :")
+		fmt.Println()
 
 		var choice int
 		fmt.Scan(&choice)
@@ -36,6 +37,7 @@ func Shop() {
 		}
 		if choice < 1 || choice > len(items) {
 			fmt.Println("Choix invalide.")
+			fmt.Println()
 			continue
 		}
 
@@ -46,15 +48,18 @@ func Shop() {
 		if itemPrice == 0 {
 			if freeTaken {
 				fmt.Println("⚠ Vous ne pouvez prendre cet article gratuit qu'une seule fois !")
+				fmt.Println()
 				continue
 			}
 			if len(inventory.Inventaire) >= inventory.CapaciteMax {
 				fmt.Println("Votre inventaire est plein, impossible de prendre l'objet gratuit.")
+				fmt.Println()
 				continue
 			}
 			inventory.AddInventory(inventory.Objet{Nom: itemName, Quantite: 1, Type: "Objet"})
 			freeTaken = true
 			fmt.Println("Vous avez pris :", itemName)
+			fmt.Println()
 			continue
 		}
 
@@ -62,13 +67,16 @@ func Shop() {
 		if Gold >= itemPrice {
 			if len(inventory.Inventaire) >= inventory.CapaciteMax {
 				fmt.Println("Votre inventaire est plein, vous ne pouvez rien acheter de plus.")
+				fmt.Println()
 				continue
 			}
 			Gold -= itemPrice
 			inventory.AddInventory(inventory.Objet{Nom: itemName, Quantite: 1, Type: "Objet"})
 			fmt.Println("Vous avez acheté :", itemName)
+			fmt.Println()
 		} else {
 			fmt.Println("Vous n'avez pas assez d'or.")
+			fmt.Println()
 		}
 	}
 }
