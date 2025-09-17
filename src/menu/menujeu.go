@@ -25,8 +25,6 @@ func afficherMenu() {
 	}
 	fmt.Println(string(Lore))
 
-	afficherMenu()
-
 	// Lire le fichier ASCII art
 	Menu, err := os.ReadFile("src/menu/asciimenu.txt")
 	if err != nil {
