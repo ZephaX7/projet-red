@@ -3,7 +3,9 @@ package items
 import (
 	"fmt"
 	"time"
+	"github.com/ZephaX7/projet-red/tree/main/src/stats"
 )
+
 
 func takePot() {
 	for i, item := range Inventaire {

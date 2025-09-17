@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ZephaX7/projet-red/menu"
+	"projet-red/src/menu"
 )
 
 func main() {

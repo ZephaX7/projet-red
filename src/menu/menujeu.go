@@ -6,7 +6,8 @@ import (
 	"os"
 	"time"
 
-	PersonalisationPersonnage "github.com/ZephaX7/projet-red/src/customcharacter"
+	personalisationpersonnage "projet-red/src/customcharacter"
+
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/mp3"
 	"github.com/faiface/beep/speaker"
@@ -18,7 +19,7 @@ func afficherMenu() {
 	fmt.Println()
 
 	// Lire le fichier ASCII art
-	Menu, err := os.ReadFile("asciimenu.txt")
+	Menu, err := os.ReadFile("src/menu/asciimenu.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -34,7 +35,7 @@ func afficherMenu() {
 
 // Fonction pour lancer la musique d'accueil
 func musiqueAccueil() (beep.StreamSeekCloser, beep.Format) {
-	f, err := os.Open("Bienvenue-en-Gaule.mp3")
+	f, err := os.Open("src/menu/Bienvenue-en-Gaule.mp3")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -68,19 +69,19 @@ func RunMenu() {
 
 		switch choix {
 		case 1:
-			Demarage, err := os.ReadFile("asciidemarage.txt")
+			Demarage, err := os.ReadFile("src/menu/asciidemarage.txt")
 			if err != nil {
 				panic(err)
 			}
 			fmt.Println(string(Demarage))
 			fmt.Println()
 			menu = false
-			PersonalisationPersonnage.ChoixRace()
+			personalisationpersonnage.ChoixRace()
 
 		case 2:
 			fmt.Println("Ouverture du Lore...")
 			fmt.Println()
-			Lore, err := os.ReadFile("Lore.txt")
+			Lore, err := os.ReadFile("src/menu/Lore.txt")
 			if err != nil {
 				panic(err)
 			}
@@ -90,7 +91,7 @@ func RunMenu() {
 			streamer.Close()
 
 			// Charger et jouer la musique du Lore
-			f2, err := os.Open("Sauron.mp3")
+			f2, err := os.Open("src/menu/Sauron.mp3")
 			if err != nil {
 				log.Fatal(err)
 			}

@@ -3,7 +3,7 @@ package shop
 import (
 	"fmt"
 
-	"github.com/!zepha!x7/projet-red_/src/inventory"
+	"github.com/ZephaX7/projet-red/tree/main/src/inventory"
 )
 
 func Shop() {
