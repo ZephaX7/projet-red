@@ -2,6 +2,8 @@ package menu
 
 import (
 	"fmt"
+	"projet-red/src/inventory"
+	statspersonnage "projet-red/src/stats"
 )
 
 func Menu_character() {
@@ -13,12 +15,12 @@ func Menu_character() {
 	switch Menu {
 	case 1:
 		fmt.Println("ouverture des Statistiques...")
-
+		statspersonnage.AfficherStats()
 		//appelera la fonction ShowStats
 	case 2:
 		fmt.Println("ouverture de l'inventaire...")
-
-		//appelera la fonction Inventaire
+		inventory.AccessInventory()
+		//appele la fonction Inventaire
 	case 3:
 		fmt.Println("ouverture de la Boutique...")
 

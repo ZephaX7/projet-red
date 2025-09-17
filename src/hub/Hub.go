@@ -3,8 +3,7 @@ package hub
 import (
 	"fmt"
 	"os"
-
-	Menu "projet-red/src/charactermenu"
+	"projet-red/src/menu"
 )
 
 func main() {
@@ -27,14 +26,14 @@ func Hub() {
 	case 1:
 		fmt.Println("L'aventure commence !")
 	case 2:
-		Menu_tab, err := os.ReadFile("ascii_Menu.txt")
+		Menu_tab, err := os.ReadFile("asciimenu.txt")
 		//police small shadow
 		if err != nil {
 			panic(err)
 		}
 		fmt.Println(string(Menu_tab))
 		fmt.Println()
-		Menu.AfficherMenu()
+		menu.AfficherMenu()
 	default:
 		fmt.Println("Choix invalide, réessayez.")
 	}
