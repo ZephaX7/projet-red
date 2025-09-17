@@ -10,6 +10,9 @@ import (
 
 var reader = bufio.NewReader(os.Stdin)
 
+// Variable globale pour la vie du joueur
+var PlayerHP int = 50
+
 func ChoixRace() int {
 	fmt.Println("1. Humain (adapté à la classe guerrier)")
 	fmt.Println("2. Elfe (adapté à la classe mage)")

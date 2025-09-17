@@ -7,6 +7,7 @@ import (
 	"time"
 
 	PersonalisationPersonnage "github.com/ZephaX7/projet-red/src/customcharacter"
+
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/mp3"
 	"github.com/faiface/beep/speaker"

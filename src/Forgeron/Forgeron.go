@@ -3,7 +3,7 @@ package forgeron
 import (
 	"fmt"
 
-	"github.com/ZephaX7/projet-red/src/Inventory"
+	"projet-red/src/inventory"
 )
 
 type Material struct {

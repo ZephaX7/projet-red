@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	Menu "github.com/ZephaX7/projet-red/src/charactermenu"
+	Menu "projet-red/src/charactermenu"
 )
 
 func main() {
