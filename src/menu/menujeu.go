@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"projet-red/src/charactermenu"
 	personalisationpersonnage "projet-red/src/customcharacter"
 
 	"github.com/faiface/beep"
@@ -82,7 +83,9 @@ func RunMenu() {
 			fmt.Println(string(Demarage))
 			fmt.Println()
 			menu = false
-			personalisationpersonnage.CreerPersonnageInteractif()
+			perso := personalisationpersonnage.StartFlow()
+			// Appeler le menu de jeu avec le personnage
+			charactermenu.Menu_character(perso)
 
 		case 2:
 			fmt.Println("Au revoir !")
