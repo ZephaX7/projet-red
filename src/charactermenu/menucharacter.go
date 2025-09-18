@@ -5,6 +5,7 @@ import (
 	combat "projet-red/src/fight"
 	"projet-red/src/forgeron"
 	"projet-red/src/inventory"
+	"projet-red/src/model"
 	"projet-red/src/shop"
 	statspersonnage "projet-red/src/stats"
 )
@@ -30,7 +31,7 @@ func Menu_character() {
 		case 1:
 			fmt.Println("ouverture des Statistiques...")
 			fmt.Println()
-			statspersonnage.AfficherStats()
+			statspersonnage.AfficherStats(p * model.Personnage)
 		case 2:
 			fmt.Println("ouverture de l'inventaire...")
 			fmt.Println()

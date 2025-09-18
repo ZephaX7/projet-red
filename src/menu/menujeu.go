@@ -82,7 +82,7 @@ func RunMenu() {
 			fmt.Println(string(Demarage))
 			fmt.Println()
 			menu = false
-			personalisationpersonnage.CreerPersonnageInteractif()
+			personalisationpersonnage.StartFlow()
 
 		case 2:
 			fmt.Println("Au revoir !")
