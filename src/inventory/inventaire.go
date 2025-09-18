@@ -1,6 +1,10 @@
 package inventory
 
-import "fmt"
+import (
+	"fmt"
+	"projet-red/src/items"
+	"projet-red/src/model"
+)
 
 type Objet struct {
 	Nom      string
@@ -14,7 +18,7 @@ const CapaciteMax = 10
 
 // Affiche l'inventaire
 func AccessInventory() {
-	fmt.Println("Voici votre inventaire :")
+	fmt.Println("Voici votre inventaire 😊")
 	if len(Inventaire) == 0 {
 		fmt.Println("   (vide)")
 	} else {
@@ -62,4 +66,23 @@ func RemoveInventory(objet Objet) {
 		}
 	}
 	fmt.Println("⚠ L'objet", objet.Nom, "n'est pas dans l'inventaire.")
+}
+func UtiliserObjet(nom string, perso *model.Personnage) {
+	for _, item := range Inventaire {
+		if item.Nom == nom {
+			switch item.Nom {
+			case "Potion de soin":
+				items.TakePot(perso)
+			case "Potion de poison":
+				items.PoisonPot(perso, "ennemi")
+			default:
+				fmt.Println("Objet inconnu :", item.Nom)
+				return
+			}
+			RemoveInventory(Objet{Nom: item.Nom, Quantite: 1})
+			fmt.Println("Vous avez utilisé :", item.Nom)
+			return
+		}
+	}
+	fmt.Println("⚠ Vous n'avez pas cet objet dans l'inventaire :", nom)
 }
