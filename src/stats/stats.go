@@ -25,12 +25,12 @@ type Personnage struct {
 // Joueur global
 
 var Joueur = Personnage{
-	Nom:       "Héros",
-	Race:      "Humain",
-	Classe:    "Guerrier",
-	Sexe:      "M",
-	PvActuels: 100,
-	PvMax:     100,
+	Nom:       Personnage.Nom,
+	Race:      Personnage.Race,
+	Classe:    Personnage.Classe,
+	Sexe:      Personnage.Sexe,
+	PvActuels: Personnage.PvActuels,
+	PvMax:     Personnage.PvMax,
 	Equip: Equipment{
 		Head:  "",
 		Torso: "",
@@ -123,8 +123,8 @@ func AfficherStats() {
 
 	if Joueur.Equip.Feet == "" {
 		fmt.Println(" - Pieds : rien")
-
+	} else {
 		fmt.Println(" - Pieds :", Joueur.Equip.Feet)
-
 	}
+
 }
