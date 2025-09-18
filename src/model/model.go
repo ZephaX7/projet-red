@@ -31,13 +31,14 @@ type Personnage struct {
 	Sexe      Sexe
 	PVActuels int
 	PVMax     int
+	Gold      int
 }
 
 // Affichage lisible
 func (p Personnage) Afficher() string {
 	return fmt.Sprintf(
-		"Nom : %s\nRace : %s\nClasse : %s\nSexe : %s\nPV : %d/%d\n",
-		p.Nom, p.Race, p.Classe, p.Sexe, p.PVActuels, p.PVMax,
+		"Nom : %s\nRace : %s\nClasse : %s\nSexe : %s\nPV : %d/%d\nGold : %d\n",
+		p.Nom, p.Race, p.Classe, p.Sexe, p.PVActuels, p.PVMax, p.Gold,
 	)
 }
 

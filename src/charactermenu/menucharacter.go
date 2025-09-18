@@ -11,7 +11,7 @@ import (
 	statspersonnage "projet-red/src/stats"
 )
 
-func Menu_character(p *model.Personnage) {
+func Menu_character(perso *model.Personnage) {
 	for {
 		fmt.Println("1- Statistiques")
 		fmt.Println("2- Inventaire")
@@ -28,7 +28,7 @@ func Menu_character(p *model.Personnage) {
 		case 1:
 			fmt.Println("ouverture des Statistiques...")
 			fmt.Println()
-			statspersonnage.AfficherStats(p)
+			statspersonnage.AfficherStats(perso)
 		case 2:
 			fmt.Println("ouverture de l'inventaire...")
 			fmt.Println()
@@ -44,7 +44,7 @@ func Menu_character(p *model.Personnage) {
 		case 5:
 			fmt.Println("En avant vers l'aventure !")
 			fmt.Println()
-			combat.Combat()
+			combat.Combat(perso)
 			return
 		default:
 			fmt.Println("Choix invalide, veuillez réessayer.")

@@ -1,4 +1,4 @@
-package statspersonnage
+package xp
 
 import (
 	"fmt"
@@ -6,28 +6,28 @@ import (
 	"strings"
 )
 
-// XPCurve calcule l'XP requise pour passer du niveau L à L+1 (L>=1).
 type XPCurve func(level int) int
 
-// DefaultXPCurve : croissance exponentielle douce.
-// L=1 -> 100, L=2 -> 125, L=3 -> 156, etc.
 func DefaultXPCurve(level int) int {
 	if level < 1 {
 		level = 1
 	}
-	base := 100.0
-	growth := 1.25
+	base := 100.0  // XP de base pour passer 1 -> 2
+	growth := 1.25 // facteur de croissance par niveau
 	return int(math.Round(base * math.Pow(growth, float64(level-1))))
 }
 
+// Progression gère le niveau, l'XP courante, le cap et la courbe d'XP.
+// (POO : méthodes sur *Progression)
 type Progression struct {
-	Level    int
-	XP       int // XP actuelle dans le niveau courant
-	MaxLevel int
-	curve    XPCurve
+	Level    int     // Niveau actuel (>=1)
+	XP       int     // XP accumulée dans le niveau courant (>=0)
+	MaxLevel int     // Niveau maximum atteignable (cap)
+	curve    XPCurve // Courbe XP (par niveau)
 }
 
-func NouvelleProgression(level, maxLevel int, curve XPCurve) *Progression {
+// New crée une progression valide.
+func New(level, maxLevel int, curve XPCurve) *Progression {
 	if level < 1 {
 		level = 1
 	}
@@ -45,19 +45,20 @@ func NouvelleProgression(level, maxLevel int, curve XPCurve) *Progression {
 	}
 }
 
+// ---- Getters pratiques (lisibles côté affichage) ----
 func (p *Progression) XPToNext() int {
 	if p.Level >= p.MaxLevel {
 		return 0
 	}
 	return p.curve(p.Level)
 }
-
-// Noms demandés : "Expérience actuelle" / "Expérience max"
 func (p *Progression) ExpActuelle() int    { return p.XP }
 func (p *Progression) ExpMaxActuelle() int { return p.XPToNext() }
 func (p *Progression) NiveauActuel() int   { return p.Level }
 func (p *Progression) NiveauMax() int      { return p.MaxLevel }
 func (p *Progression) EstAuCap() bool      { return p.Level >= p.MaxLevel }
+
+// ProgressFraction : progression [0..1] dans le niveau courant (1 si cap).
 func (p *Progression) ProgressFraction() float64 {
 	need := p.XPToNext()
 	if need <= 0 {
@@ -72,13 +73,12 @@ func (p *Progression) ProgressFraction() float64 {
 	}
 	return f
 }
-
 func (p *Progression) Percent() int {
 	return int(math.Round(p.ProgressFraction() * 100))
 }
 
-// GainXP ajoute amount, gère les multi level-up, retourne (niveaux gagnés, cap atteint).
-// L'excès d'XP est conservé pour le prochain niveau (overflow) tant que cap non atteint.
+// GainXP ajoute amount, gère les multi level-up, retourne (niveaux_gagnés, cap_atteint).
+// L'excès d'XP est conservé pour le prochain niveau tant que le cap n'est pas atteint.
 func (p *Progression) GainXP(amount int) (int, bool) {
 	if amount <= 0 || p.Level >= p.MaxLevel {
 		return 0, p.Level >= p.MaxLevel
@@ -96,14 +96,14 @@ func (p *Progression) GainXP(amount int) (int, bool) {
 		levels++
 	}
 	if p.Level >= p.MaxLevel {
-		// au cap, on remet l'XP à 0 pour éviter confusion
+		// Au cap, on remet l'XP à 0 (affichage plus clair)
 		p.XP = 0
 		return levels, true
 	}
 	return levels, false
 }
 
-// Barre d'XP ASCII
+// Bar ascii ici
 func (p *Progression) Bar(width int, fill, empty rune) string {
 	if width < 3 {
 		width = 3
@@ -123,32 +123,6 @@ func (p *Progression) Bar(width int, fill, empty rune) string {
 	return fmt.Sprintf("[%s%s] %d/%d (%d%%)  Niv %d/%d",
 		strings.Repeat(string(fill), filled),
 		strings.Repeat(string(empty), width-filled),
-		p.XP, need, p.Percent(), p.Level, p.MaxLevel)
-}
-
-// Version avec couleurs ANSI (optionnel)
-func (p *Progression) BarColored(width int, fill, empty rune) string {
-	const (
-		green = "\x1b[32m"
-		reset = "\x1b[0m"
+		p.XP, need, p.Percent(), p.Level, p.MaxLevel,
 	)
-	if width < 3 {
-		width = 3
-	}
-	if p.Level >= p.MaxLevel {
-		return fmt.Sprintf("[%s%s%s] MAX  Niv %d/%d",
-			green, strings.Repeat(string(fill), width), reset, p.Level, p.MaxLevel)
-	}
-	filled := int(math.Round(p.ProgressFraction() * float64(width)))
-	if filled < 0 {
-		filled = 0
-	}
-	if filled > width {
-		filled = width
-	}
-	need := p.XPToNext()
-	return fmt.Sprintf("[%s%s%s%s] %d/%d (%d%%)  Niv %d/%d",
-		green, strings.Repeat(string(fill), filled), reset,
-		strings.Repeat(string(empty), width-filled),
-		p.XP, need, p.Percent(), p.Level, p.MaxLevel)
 }
