@@ -3,6 +3,7 @@ package forgeron
 import (
 	"fmt"
 	"projet-red/src/inventory"
+	"projet-red/src/model"
 )
 
 type Material struct {
@@ -15,7 +16,7 @@ type ItemCost struct {
 	Materials []Material
 }
 
-func Shop() {
+func Shop(perso *model.Personnage) {
 	items := []string{
 		"Chapeau de l'aventurier",
 		"Tunique de l'aventurier",
@@ -28,11 +29,10 @@ func Shop() {
 		{Gold: 5, Materials: []Material{{"Fourrure de loup", 1}, {"Cuir de Sanglier", 1}}},
 	}
 
-	Gold := 100
 	bought := []string{}
 
 	for {
-		fmt.Printf("\nVous avez %d pièces d'or.\n", Gold)
+		fmt.Printf("\nVous avez %d pièces d'or.\n", perso.Gold)
 		for i, item := range items {
 			fmt.Printf("%d. %s - %d pièces d'or + matériaux : ", i+1, item, costs[i].Gold)
 			for _, m := range costs[i].Materials {
@@ -40,7 +40,7 @@ func Shop() {
 			}
 			fmt.Println()
 		}
-		fmt.Println("Entrez le numéro de l'article à acheter (ou 0 pour quitter) :")
+		fmt.Println("Entrez le numéro de l'article à fabriquer (ou 0 pour quitter) :")
 
 		var choice int
 		fmt.Scan(&choice)
@@ -56,7 +56,7 @@ func Shop() {
 		cost := costs[choice-1]
 
 		// Vérifier l'or
-		if Gold < cost.Gold {
+		if perso.Gold < cost.Gold {
 			fmt.Println("Vous n'avez pas assez d'or.")
 			continue
 		}
@@ -80,14 +80,14 @@ func Shop() {
 			continue
 		}
 
-		// Vérifier l'inventaire pour l'objet final
+		// Vérifier l'inventaire
 		if len(inventory.Inventaire) >= inventory.CapaciteMax {
-			fmt.Println("Votre inventaire est plein, vous ne pouvez rien acheter de plus.")
+			fmt.Println("Votre inventaire est plein, vous ne pouvez rien fabriquer de plus.")
 			continue
 		}
 
 		// Retirer l'or
-		Gold -= cost.Gold
+		perso.Gold -= cost.Gold
 
 		// Retirer les matériaux
 		for _, m := range cost.Materials {
@@ -105,6 +105,6 @@ func Shop() {
 		})
 
 		bought = append(bought, items[choice-1])
-		fmt.Println("Vous avez fabriqué", bought)
+		fmt.Println("Vous avez fabriqué", items[choice-1])
 	}
 }

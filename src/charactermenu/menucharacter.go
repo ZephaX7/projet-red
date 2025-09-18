@@ -28,18 +28,22 @@ func Menu_character(perso *model.Personnage) {
 			fmt.Println("ouverture des Statistiques...")
 			fmt.Println()
 			stats.AfficherStats(perso)
+
 		case 2:
 			fmt.Println("ouverture de l inventaire...")
 			fmt.Println()
 			inventory.AccessInventory()
+
 		case 3:
 			fmt.Println("ouverture de la Boutique...")
 			fmt.Println()
-			shop.Shop()
+			shop.Shop(perso) // ✅ correction
+
 		case 4:
 			fmt.Println("Ouverture de la forge...")
 			fmt.Println()
-			forgeron.Shop()
+			forgeron.Shop(perso) // ✅ correction
+
 		case 5:
 			fmt.Println("En avant vers l'aventure !")
 			fmt.Println()

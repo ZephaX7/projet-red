@@ -71,33 +71,23 @@ func (pz *Personnalisateur) ChoisirNom() string {
 	}
 }
 
+// ✅ Création du personnage avec choix + PVActuels = PVMax / 2
 func (pz *Personnalisateur) CreerPersonnageInteractif() *model.Personnage {
 	nom := pz.ChoisirNom()
 	r := pz.ChoixRace()
 	c := pz.ChoixClasse()
 	s := pz.ChoixSexe()
 
-	p := &model.Personnage{
-		Nom:    nom,
-		Race:   r,
-		Classe: c,
-		Sexe:   s,
-	}
+	// On crée avec la fonction InitCharacter
+	p := model.InitCharacter(nom, r, c, s)
 
-	// Init PV selon race
-	switch p.Race {
-	case model.Humain:
-		p.PVMax, p.PVActuels = 100, 50
-	case model.Elfe:
-		p.PVMax, p.PVActuels = 80, 40
-	case model.Nain:
-		p.PVMax, p.PVActuels = 120, 60
-	}
+	// Ajustement des PV (commence à la moitié)
+	p.PVActuels = p.PVMax / 2
 
 	return p
 }
 
-// Fonction publique pour main.go
+// Fonction simple pour démarrer le flow
 func StartFlow() *model.Personnage {
 	pz := NewPersonnalisateur()
 	return pz.CreerPersonnageInteractif()
