@@ -2,7 +2,7 @@ package statspersonnage
 
 import "fmt"
 
-// Modèle d'équipement
+//équipement
 
 type Equipment struct {
 	Head  string
@@ -22,7 +22,7 @@ type Personnage struct {
 	Equip     Equipment
 }
 
-// Joueur global
+// Joueur
 
 var Joueur = Personnage{
 	Nom:       Personnage.Nom,
