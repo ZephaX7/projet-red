@@ -3,6 +3,7 @@ package inventory
 import (
 	"fmt"
 	"projet-red/src/items"
+	"projet-red/src/model"
 )
 
 type Objet struct {
@@ -67,23 +68,19 @@ func RemoveInventory(objet Objet) {
 	fmt.Println("⚠ L'objet", objet.Nom, "n'est pas dans l'inventaire.")
 }
 
-func UtiliserObjet(nom string) {
+func UtiliserObjet(nom string, perso *model.Personnage) {
 	for _, item := range Inventaire {
 		if item.Nom == nom {
-			// Appliquer l'effet
 			switch item.Nom {
 			case "Potion de soin":
-				items.TakePot()
+				items.TakePot(perso)
 			case "Potion de poison":
-				items.PoisonPot("ennemi")
+				items.PoisonPot(perso, "ennemi")
 			default:
 				fmt.Println("Objet inconnu :", item.Nom)
 				return
 			}
-
-			// Retirer l'objet via ta fonction RemoveInventory
 			RemoveInventory(Objet{Nom: item.Nom, Quantite: 1})
-
 			fmt.Println("Vous avez utilisé :", item.Nom)
 			return
 		}
