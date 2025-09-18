@@ -8,7 +8,7 @@ import (
 	"projet-red/src/model"
 	"projet-red/src/shop"
 
-	statspersonnage "projet-red/src/stats"
+	statspersonnage "projet-red/src/model"
 )
 
 func Menu_character(perso *model.Personnage) {
