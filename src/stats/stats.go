@@ -1,16 +1,31 @@
 package statspersonnage
 
-import "fmt"
+import (
+	"fmt"
+	personalisationpersonnage "projet-red/src/customcharacter"
+)
 
-// Modèle d'équipement
+// =============================
+// Constantes d'équipement
+// =============================
 
+const (
+	CasqueDeFer    = "Casque de fer"
+	CasqueMagique  = "Casque magique"
+	ArmureLegere   = "Armure légère"
+	ArmureLourde   = "Armure lourde"
+	BottesUsees    = "Bottes usées"
+	BottesMagiques = "Bottes magiques"
+)
+
+// =============================
+// Modèles
+// =============================
 type Equipment struct {
 	Head  string
 	Torso string
 	Feet  string
 }
-
-// Stats du personnage
 
 type Personnage struct {
 	Nom       string
@@ -19,112 +34,182 @@ type Personnage struct {
 	Sexe      string
 	PvActuels int
 	PvMax     int
+	BasePvMax int // base avant bonus d'équipement (ex: 100)
 	Equip     Equipment
 }
 
-// Joueur global
+// =============================
+// Constructeurs
+// =============================
 
-var Joueur = Personnage{
-	Nom:       Personnage.Nom,
-	Race:      Personnage.Race,
-	Classe:    Personnage.Classe,
-	Sexe:      Personnage.Sexe,
-	PvActuels: Personnage.PvActuels,
-	PvMax:     Personnage.PvMax,
-	Equip: Equipment{
-		Head:  "",
-		Torso: "",
-		Feet:  "",
-	},
-}
-
-// Gestion des PV
-
-func Soigner(soin int) {
-	Joueur.PvActuels += soin
-	if Joueur.PvActuels > Joueur.PvMax {
-		Joueur.PvActuels = Joueur.PvMax
+// Nouveau crée un personnage "POO" avec PV cohérents.
+func Nouveau(nom, race, classe, sexe string, pvActuels, pvMax int) *Personnage {
+	base := pvMax
+	if base <= 0 {
+		base = 100
+	}
+	if pvActuels < 0 {
+		pvActuels = 0
+	}
+	if pvActuels > base {
+		pvActuels = base
+	}
+	return &Personnage{
+		Nom:       nom,
+		Race:      race,
+		Classe:    classe,
+		Sexe:      sexe,
+		PvActuels: pvActuels,
+		PvMax:     base,
+		BasePvMax: base,
+		Equip:     Equipment{},
 	}
 }
 
-func RecevoirDegats(degats int) {
-	Joueur.PvActuels -= degats
-	if Joueur.PvActuels < 0 {
-		Joueur.PvActuels = 0
+// NouveauDepuisCustom initialise à partir du package customcharacter
+// en supposant qu'il expose une variable exportée `Personnage`.
+func NouveauDepuisCustom() *Personnage {
+	src := personalisationpersonnage.Personnage
+
+	base := src.PvMax
+	if base <= 0 {
+		base = 100
+	}
+	actuels := src.PvActuels
+	if actuels < 0 {
+		actuels = 0
+	}
+	if actuels > base {
+		actuels = base
+	}
+
+	return &Personnage{
+		Nom:       src.Nom,
+		Race:      src.Race,
+		Classe:    src.Classe,
+		Sexe:      src.Sexe,
+		PvActuels: actuels,
+		PvMax:     base,
+		BasePvMax: base,
+		Equip:     Equipment{},
 	}
 }
 
-// Application des bonus/malus d'équipement
+// Si ton package `customcharacter` n'expose PAS une variable mais une
+// fonction (ex: GetPersonnage()), dis-le moi et je te fais l'adaptateur.
 
-func AppliquerEffetsEquipement() {
-	basePvMax := 100
+// =============================
+// Méthodes "POO"
+// =============================
 
-	// Vérifie ce que le joueur porte
-	switch Joueur.Equip.Head {
-	case "Casque de fer":
-		basePvMax += 20
-	case "Casque magique":
-		basePvMax += 50
+// Soigner augmente les PV actuels sans dépasser PvMax.
+func (p *Personnage) Soigner(soin int) {
+	if soin <= 0 {
+		return
 	}
-
-	switch Joueur.Equip.Torso {
-	case "Armure légère":
-		basePvMax += 30
-	case "Armure lourde":
-		basePvMax += 60
-	}
-
-	switch Joueur.Equip.Feet {
-	case "Bottes usées":
-		basePvMax += 5
-	case "Bottes magiques":
-		basePvMax += 15
-	}
-
-	// Met à jour les PV max
-	Joueur.PvMax = basePvMax
-
-	// Ajuste les PV actuels si besoin
-	if Joueur.PvActuels > Joueur.PvMax {
-		Joueur.PvActuels = Joueur.PvMax
+	p.PvActuels += soin
+	if p.PvActuels > p.PvMax {
+		p.PvActuels = p.PvMax
 	}
 }
 
-// Affichage
+// RecevoirDegats diminue les PV actuels sans passer sous 0.
+func (p *Personnage) RecevoirDegats(degats int) {
+	if degats <= 0 {
+		return
+	}
+	p.PvActuels -= degats
+	if p.PvActuels < 0 {
+		p.PvActuels = 0
+	}
+}
 
-func AfficherStats() {
-	fmt.Println("Nom :", Joueur.Nom)
+// RecalculerPvMax recalcule PvMax à partir de BasePvMax + bonus équipement.
+func (p *Personnage) RecalculerPvMax() {
+	bonus := 0
 
-	fmt.Println("Race :", Joueur.Race)
+	switch p.Equip.Head {
+	case CasqueDeFer:
+		bonus += 20
+	case CasqueMagique:
+		bonus += 50
+	}
 
-	fmt.Println("Classe :", Joueur.Classe)
+	switch p.Equip.Torso {
+	case ArmureLegere:
+		bonus += 30
+	case ArmureLourde:
+		bonus += 60
+	}
 
-	fmt.Println("Sexe :", Joueur.Sexe)
+	switch p.Equip.Feet {
+	case BottesUsees:
+		bonus += 5
+	case BottesMagiques:
+		bonus += 15
+	}
+
+	p.PvMax = p.BasePvMax + bonus
+	if p.PvMax < 1 {
+		p.PvMax = 1
+	}
+	if p.PvActuels > p.PvMax {
+		p.PvActuels = p.PvMax
+	}
+}
+
+// Equiper remplace tout l'équipement et recalcule les PV.
+func (p *Personnage) Equiper(head, torso, feet string) {
+	p.Equip.Head = head
+	p.Equip.Torso = torso
+	p.Equip.Feet = feet
+	p.RecalculerPvMax()
+}
+
+// EquiperTete remplace uniquement la tête et recalcule les PV.
+func (p *Personnage) EquiperTete(head string) {
+	p.Equip.Head = head
+	p.RecalculerPvMax()
+}
+
+// EquiperTorse remplace uniquement le torse et recalcule les PV.
+func (p *Personnage) EquiperTorse(torso string) {
+	p.Equip.Torso = torso
+	p.RecalculerPvMax()
+}
+
+// EquiperPieds remplace uniquement les pieds et recalcule les PV.
+func (p *Personnage) EquiperPieds(feet string) {
+	p.Equip.Feet = feet
+	p.RecalculerPvMax()
+}
+
+// AfficherStats affiche joliment les infos du perso.
+func (p *Personnage) AfficherStats() {
+	fmt.Println("Nom :", p.Nom)
+	fmt.Println("Race :", p.Race)
+	fmt.Println("Classe :", p.Classe)
+	fmt.Println("Sexe :", p.Sexe)
 	fmt.Println()
-	fmt.Printf("PV : %d/%d\n", Joueur.PvActuels, Joueur.PvMax)
+	fmt.Printf("PV : %d/%d\n", p.PvActuels, p.PvMax)
 	fmt.Println()
 
 	fmt.Println("Équipement :")
-	if Joueur.Equip.Head == "" {
+	if p.Equip.Head == "" {
 		fmt.Println(" - Tête : rien")
-
 	} else {
-		fmt.Println(" - Tête :", Joueur.Equip.Head)
-
+		fmt.Println(" - Tête :", p.Equip.Head)
 	}
 
-	if Joueur.Equip.Torso == "" {
+	if p.Equip.Torso == "" {
 		fmt.Println(" - Torse : rien")
-
 	} else {
-		fmt.Println(" - Torse :", Joueur.Equip.Torso)
-
+		fmt.Println(" - Torse :", p.Equip.Torso)
 	}
 
-	if Joueur.Equip.Feet == "" {
+	if p.Equip.Feet == "" {
 		fmt.Println(" - Pieds : rien")
 	} else {
-		fmt.Println(" - Pieds :", Joueur.Equip.Feet)
+		fmt.Println(" - Pieds :", p.Equip.Feet)
 	}
-
 }
