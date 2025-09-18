@@ -18,7 +18,7 @@ const CapaciteMax = 10
 
 // Affiche l'inventaire
 func AccessInventory() {
-	fmt.Println("Voici votre inventaire :")
+	fmt.Println("Voici votre inventaire 😊")
 	if len(Inventaire) == 0 {
 		fmt.Println("   (vide)")
 	} else {
@@ -67,7 +67,6 @@ func RemoveInventory(objet Objet) {
 	}
 	fmt.Println("⚠ L'objet", objet.Nom, "n'est pas dans l'inventaire.")
 }
-
 func UtiliserObjet(nom string, perso *model.Personnage) {
 	for _, item := range Inventaire {
 		if item.Nom == nom {

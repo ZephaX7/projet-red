@@ -7,8 +7,7 @@ import (
 	"projet-red/src/inventory"
 	"projet-red/src/model"
 	"projet-red/src/shop"
-
-	statspersonnage "projet-red/src/stats"
+	"projet-red/src/stats"
 )
 
 func Menu_character(perso *model.Personnage) {
@@ -28,7 +27,7 @@ func Menu_character(perso *model.Personnage) {
 		case 1:
 			fmt.Println("ouverture des Statistiques...")
 			fmt.Println()
-			statspersonnage.AfficherStats(perso)
+			stats.AfficherStats(perso)
 		case 2:
 			fmt.Println("ouverture de l'inventaire...")
 			fmt.Println()

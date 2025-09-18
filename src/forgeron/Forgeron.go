@@ -23,9 +23,9 @@ func Shop() {
 	}
 
 	costs := []ItemCost{
-		{Gold: 5, Materials: []Material{{"Tissu", 2}}},
-		{Gold: 5, Materials: []Material{{"Tissu", 3}}},
-		{Gold: 5, Materials: []Material{{"Cuir", 2}, {"Tissu", 1}}},
+		{Gold: 5, Materials: []Material{{"Plume de Corbeau", 1}, {"Cuir de Sanglier", 1}}},
+		{Gold: 5, Materials: []Material{{"Fourrure de loup", 2}, {"Peau de Troll", 1}}},
+		{Gold: 5, Materials: []Material{{"Fourrure de loup", 1}, {"Cuir de Sanglier", 1}}},
 	}
 
 	Gold := 100
@@ -105,6 +105,6 @@ func Shop() {
 		})
 
 		bought = append(bought, items[choice-1])
-		fmt.Println("Vous avez fabriqué", items[choice-1])
+		fmt.Println("Vous avez fabriqué", bought)
 	}
 }
