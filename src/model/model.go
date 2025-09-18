@@ -32,13 +32,14 @@ type Personnage struct {
 	PVActuels int
 	PVMax     int
 	Gold      int
+	Xp        int
 }
 
 // Affichage lisible
 func (p Personnage) Afficher() string {
 	return fmt.Sprintf(
-		"Nom : %s\nRace : %s\nClasse : %s\nSexe : %s\nPV : %d/%d\nGold : %d\n",
-		p.Nom, p.Race, p.Classe, p.Sexe, p.PVActuels, p.PVMax, p.Gold,
+		"Nom : %s\nRace : %s\nClasse : %s\nSexe : %s\nPV : %d/%d\nGold : %d\nXp : %d",
+		p.Nom, p.Race, p.Classe, p.Sexe, p.PVActuels, p.PVMax, p.Gold, p.Xp,
 	)
 }
 
@@ -79,5 +80,18 @@ func (s Sexe) String() string {
 		return "Autre"
 	default:
 		return "Inconnu"
+	}
+}
+
+func InitCharacter(nom string, race Race, classe Classe, sexe Sexe) *Personnage {
+	return &Personnage{
+		Nom:       nom,
+		Race:      race,
+		Classe:    classe,
+		Sexe:      sexe,
+		PVMax:     100,
+		PVActuels: 100,
+		Gold:      100,
+		Xp:        0,
 	}
 }
