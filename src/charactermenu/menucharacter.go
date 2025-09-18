@@ -3,6 +3,7 @@ package charactermenu
 import (
 	"fmt"
 	combat "projet-red/src/fight"
+	"projet-red/src/forgeron"
 	"projet-red/src/inventory"
 	"projet-red/src/shop"
 	statspersonnage "projet-red/src/stats"
@@ -16,7 +17,9 @@ func Menu_character() {
 		fmt.Println()
 		fmt.Println("3- Boutique")
 		fmt.Println()
-		fmt.Println("4- Retour")
+		fmt.Println("4- Forge")
+		fmt.Println()
+		fmt.Println("5- Retour")
 		fmt.Println()
 
 		var Menu int
@@ -37,10 +40,16 @@ func Menu_character() {
 			fmt.Println()
 			shop.Shop()
 		case 4:
-			fmt.Println("De retour pour l'aventure...")
+			fmt.Println("Ouverture de la forge...")
+			fmt.Println()
+			forgeron.Shop()
+
+		case 5:
+			fmt.Println("En avant vers l'aventure !")
 			fmt.Println()
 			combat.Combat()
 			return
+
 		default:
 			fmt.Println("Choix invalide, veuillez réessayer.")
 			fmt.Println()
