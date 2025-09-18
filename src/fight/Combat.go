@@ -59,7 +59,7 @@ func Combat(joueur *model.Personnage) {
 		fmt.Printf("Vous êtes ressuscité avec %d PV.\n", joueur.PVActuels)
 	} else {
 		fmt.Printf("🎉 Vous avez vaincu %s ! Vous gagnez %d XP et %d pièces d'or.\n",
-			ennemi.Nom, ennemi.Xp, ennemi.Gold)
+			ennemi.Race, ennemi.Xp, ennemi.Gold)
 		joueur.Xp += ennemi.Xp
 		joueur.Gold += ennemi.Gold
 	}

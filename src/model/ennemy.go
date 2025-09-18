@@ -6,7 +6,7 @@ import (
 )
 
 type Ennemi struct {
-	Nom       string
+	Race      string
 	PVActuels int
 	PVMax     int
 	Gold      int
@@ -16,8 +16,8 @@ type Ennemi struct {
 
 // Affichage lisible
 func (e *Ennemi) Afficher() string { // ⚡ pointeur pour pouvoir modifier les PV
-	return fmt.Sprintf("Nom : %s\nPV : %d/%d\nForce : %d\nGold : %d\nXP : %d",
-		e.Nom, e.PVActuels, e.PVMax, e.Force, e.Gold, e.Xp)
+	return fmt.Sprintf("Race : %s\nPV : %d/%d\nForce : %d\nGold : %d\nXP : %d",
+		e.Race, e.PVActuels, e.PVMax, e.Force, e.Gold, e.Xp)
 }
 
 // Liste des ennemis possibles
