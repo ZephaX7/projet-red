@@ -18,8 +18,8 @@ func Combat(perso *model.Personnage, ennemi *model.Ennemi) {
 
 		switch choix {
 		case 1:
-			damage := 20
-			ennemi.PVActuels -= damage
+			damage := ennemi.Degats
+			perso.PVActuels -= damage
 			if ennemi.PVActuels < 0 {
 				ennemi.PVActuels = 0
 			}

@@ -33,7 +33,7 @@ type Personnage struct {
 	PVActuels int
 	Gold      int
 	Xp        int
-	Revived   bool // pour savoir si le perso a déjà été ressuscité
+	Revived   bool
 }
 
 // Affichage lisible
@@ -85,15 +85,26 @@ func (s Sexe) String() string {
 }
 
 func InitCharacter(nom string, race Race, classe Classe, sexe Sexe) *Personnage {
+	pvMax := 100 // par défaut
+	switch race {
+	case Humain:
+		pvMax = 100
+	case Elfe:
+		pvMax = 80
+	case Nain:
+		pvMax = 120
+	}
+
 	return &Personnage{
 		Nom:       nom,
 		Race:      race,
 		Classe:    classe,
 		Sexe:      sexe,
-		PVMax:     100,
-		PVActuels: 100,
+		PVMax:     pvMax,
+		PVActuels: pvMax / 2,
 		Gold:      100,
 		Xp:        0,
 		Revived:   false,
 	}
+
 }
