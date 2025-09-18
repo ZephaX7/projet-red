@@ -16,9 +16,13 @@ func Shop(perso *model.Personnage) {
 		"Peau de Troll",
 		"Cuir de Sanglier",
 		"Plume de Corbeaux",
+		"Upgrade inventaire",
 	}
-	prices := []int{0, 3, 6, 25, 4, 7, 3, 1}
-	freeTaken := false // pour l'article gratuit
+	prices := []int{0, 3, 6, 25, 4, 7, 3, 1, 30}
+	freeTaken := false
+
+	// Compteur pour les upgrades, max 3
+	var upgradeCount int
 
 	for {
 		fmt.Printf("\nVous avez %d pièces d'or.\n", perso.Gold)
@@ -59,10 +63,24 @@ func Shop(perso *model.Personnage) {
 
 		// Achat normal
 		if perso.Gold >= itemPrice {
+			// Gestion de l'upgrade
+			if itemName == "Upgrade inventaire" {
+				if upgradeCount >= 3 {
+					fmt.Println("⚠ Vous ne pouvez plus améliorer votre inventaire ! Limite atteinte.\n")
+					continue
+				}
+				perso.Gold -= itemPrice
+				upgradeCount++
+				inventory.CapaciteMax += 10
+				fmt.Printf("✅ Votre inventaire a été amélioré ! Nouvelle capacité : %d (Améliorations restantes : %d)\n\n", inventory.CapaciteMax, 3-upgradeCount)
+				continue
+			}
+
 			if len(inventory.Inventaire) >= inventory.CapaciteMax {
 				fmt.Println("Votre inventaire est plein, vous ne pouvez rien acheter de plus.\n")
 				continue
 			}
+
 			perso.Gold -= itemPrice
 			inventory.AddInventory(inventory.Objet{Nom: itemName, Quantite: 1, Type: "Objet"})
 			fmt.Println("Vous avez acheté :", itemName, "\n")

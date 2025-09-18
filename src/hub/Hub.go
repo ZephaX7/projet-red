@@ -8,7 +8,9 @@ import (
 )
 
 func Hub(perso *model.Personnage) {
-	for {
+	gameOver := false
+
+	for !gameOver {
 		fmt.Println("\n🏰 Bienvenue au Hub ! 🏰")
 		fmt.Println("1 - Partir à l'aventure")
 		fmt.Println("2 - Ouvrir le menu")
@@ -20,18 +22,27 @@ func Hub(perso *model.Personnage) {
 
 		switch choix {
 		case 1:
-			fmt.Println("L'aventure commence !")
 			ennemi := model.RandomEnnemi()
-			fmt.Printf("🔹 Un ennemi apparaît : %s ! PV : %d/%d\n", ennemi.Nom, ennemi.PVActuels, ennemi.PVMax)
-			fight.Combat(perso, ennemi) // Combat gère la mort / résurrection
+			fmt.Printf("\nUn ennemi apparaît : %s ! PV : %d/%d\n", ennemi.Nom, ennemi.PVActuels, ennemi.PVMax)
+
+			fight.Combat(perso, ennemi)
+
+			if perso.PVActuels <= 0 {
+				if !perso.Revived {
+					perso.PVActuels = perso.PVMax / 2
+					perso.Revived = true
+					fmt.Printf("\n💀 Vous êtes mort mais ressuscité ! PV : %d/%d\n", perso.PVActuels, perso.PVMax)
+				} else {
+					fmt.Println("\n💀 Vous êtes mort pour de bon ! Game Over.")
+					gameOver = true // stoppe le hub
+				}
+			}
 
 		case 2:
 			charactermenu.AfficherMenu(perso)
-
 		case 3:
 			fmt.Println("Au revoir !")
-			return
-
+			gameOver = true
 		default:
 			fmt.Println("Choix invalide, réessayez.")
 		}

@@ -2,6 +2,7 @@ package model
 
 import "fmt"
 
+// Types de race, classe et sexe
 type Race int
 type Classe int
 type Sexe int
@@ -24,6 +25,7 @@ const (
 	Autre
 )
 
+// Personnage représente le joueur
 type Personnage struct {
 	Nom       string
 	Race      Race
@@ -34,13 +36,29 @@ type Personnage struct {
 	Gold      int
 	Xp        int
 	Revived   bool
+	Skills    []string        // compétences
+	Equip     map[string]bool // objets équipés
 }
 
-// Affichage lisible
+// Affichage lisible du personnage
 func (p Personnage) Afficher() string {
+	equip := ""
+	for item, ok := range p.Equip {
+		if ok {
+			if equip != "" {
+				equip += ", "
+			}
+			equip += item
+		}
+	}
+	if equip == "" {
+		equip = "(aucun)"
+	}
+
 	return fmt.Sprintf(
-		"Nom : %s\nRace : %s\nClasse : %s\nSexe : %s\nPV : %d/%d\nGold : %d\nXp : %d",
-		p.Nom, p.Race, p.Classe, p.Sexe, p.PVActuels, p.PVMax, p.Gold, p.Xp,
+		"Nom : %s\nRace : %s\nClasse : %s\nSexe : %s\nPV : %d/%d\nGold : %d\nXp : %d\nSkills : %v\nÉquipement : %s",
+		p.Nom, p.Race.String(), p.Classe.String(), p.Sexe.String(),
+		p.PVActuels, p.PVMax, p.Gold, p.Xp, p.Skills, equip,
 	)
 }
 
@@ -84,8 +102,9 @@ func (s Sexe) String() string {
 	}
 }
 
+// InitCharacter crée un personnage avec PV selon race et Coup de poing comme compétence de base
 func InitCharacter(nom string, race Race, classe Classe, sexe Sexe) *Personnage {
-	pvMax := 100 // par défaut
+	var pvMax int
 	switch race {
 	case Humain:
 		pvMax = 100
@@ -93,6 +112,8 @@ func InitCharacter(nom string, race Race, classe Classe, sexe Sexe) *Personnage 
 		pvMax = 80
 	case Nain:
 		pvMax = 120
+	default:
+		pvMax = 100
 	}
 
 	return &Personnage{
@@ -101,10 +122,40 @@ func InitCharacter(nom string, race Race, classe Classe, sexe Sexe) *Personnage 
 		Classe:    classe,
 		Sexe:      sexe,
 		PVMax:     pvMax,
-		PVActuels: pvMax / 2,
+		PVActuels: pvMax,
 		Gold:      100,
 		Xp:        0,
 		Revived:   false,
+		Skills:    []string{"Coup de poing"}, // compétence de base
+		Equip:     make(map[string]bool),
+	}
+}
+
+// EquipItem équipe un objet et applique ses bonus
+func (p *Personnage) EquipItem(itemName string) {
+	if p.Equip == nil {
+		p.Equip = make(map[string]bool)
 	}
 
+	if p.Equip[itemName] {
+		fmt.Println("⚠ Cet objet est déjà équipé :", itemName)
+		return
+	}
+
+	switch itemName {
+	case "Chapeau de l'aventurier":
+		p.PVMax += 10
+	case "Tunique de l'aventurier":
+		p.PVMax += 25
+	case "Bottes de l'aventurier":
+		p.PVMax += 15
+	default:
+		fmt.Println("⚠ Cet objet ne peut pas être équipé :", itemName)
+		return
+	}
+
+	p.Equip[itemName] = true
+	p.PVActuels = p.PVMax // remplir les PV après équipement (optionnel)
+	fmt.Println("✅ Vous avez équipé :", itemName)
+	fmt.Printf("PV max actuel : %d\n", p.PVMax)
 }

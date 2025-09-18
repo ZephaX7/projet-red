@@ -2,106 +2,95 @@ package inventory
 
 import (
 	"fmt"
-	"projet-red/src/items"
 	"projet-red/src/model"
 )
 
 type Objet struct {
 	Nom      string
 	Quantite int
-	Type     string
+	Type     string // "Objet" ou "Équipement"
 }
 
+// Inventaire global accessible depuis d'autres packages
 var Inventaire []Objet
 
-const CapaciteMax = 10
+// var CapaciteMax = 10   // au lieu de const
+var CapaciteMax = 10
 
-// Affiche l'inventaire
-func AccessInventory() {
-	fmt.Println("Voici votre inventaire 😊")
-	if len(Inventaire) == 0 {
-		fmt.Println("   (vide)")
+// Ajouter un objet à l'inventaire
+func AddInventory(obj Objet) {
+	for i := range Inventaire {
+		if Inventaire[i].Nom == obj.Nom {
+			Inventaire[i].Quantite += obj.Quantite
+			return
+		}
+	}
+	// Ajouter un nouvel objet si inventaire pas plein
+	if len(Inventaire) < CapaciteMax {
+		Inventaire = append(Inventaire, obj)
 	} else {
-		for i, item := range Inventaire {
-			fmt.Printf("%d. %s (x%d)\n", i+1, item.Nom, item.Quantite)
-		}
-		fmt.Printf("➡ %d/%d places utilisées\n", len(Inventaire), CapaciteMax)
+		fmt.Println("⚠ Inventaire plein, impossible d'ajouter", obj.Nom)
 	}
 }
 
-// Ajoute un objet à l'inventaire
-func AddInventory(objet Objet) {
-	// Vérifier la capacité max
-	if len(Inventaire) >= CapaciteMax {
-		fmt.Println("Inventaire plein ! Impossible d'ajouter :", objet.Nom)
-		return
-	}
-
-	// Si l'objet existe déjà → on augmente la quantité
-	for i, item := range Inventaire {
-		if item.Nom == objet.Nom {
-			Inventaire[i].Quantite += objet.Quantite
-			fmt.Printf("Vous avez maintenant %d %s.\n", Inventaire[i].Quantite, objet.Nom)
-			return
-		}
-	}
-
-	// Sinon, ajouter un nouvel objet
-	Inventaire = append(Inventaire, objet)
-	fmt.Printf("Vous avez ajouté %d %s à votre inventaire.\n", objet.Quantite, objet.Nom)
-}
-
-// Supprime un objet de l'inventaire
-func RemoveInventory(objet Objet) {
-	for i, item := range Inventaire {
-		if item.Nom == objet.Nom {
-			Inventaire[i].Quantite -= objet.Quantite
-			if Inventaire[i].Quantite <= 0 {
-				Inventaire = append(Inventaire[:i], Inventaire[i+1:]...)
-				fmt.Printf("%s retiré de l'inventaire.\n", objet.Nom)
+// Retirer un objet de l'inventaire
+func RemoveInventory(obj Objet) {
+	for i := range Inventaire {
+		if Inventaire[i].Nom == obj.Nom {
+			if Inventaire[i].Quantite > obj.Quantite {
+				Inventaire[i].Quantite -= obj.Quantite
 			} else {
-				fmt.Printf("Vous avez maintenant %d %s.\n", Inventaire[i].Quantite, objet.Nom)
+				Inventaire = append(Inventaire[:i], Inventaire[i+1:]...)
 			}
 			return
 		}
 	}
-	fmt.Println("⚠ L'objet", objet.Nom, "n'est pas dans l'inventaire.")
+	fmt.Println("⚠ Objet non trouvé dans l'inventaire :", obj.Nom)
 }
-func UtiliserObjet(nom string, perso *model.Personnage) {
-	for _, item := range Inventaire {
-		if item.Nom == nom {
-			switch item.Nom {
-			case "Potion de soin":
-				items.TakePot(perso)
-			case "Potion de poison":
-				items.PoisonPot(perso, "ennemi")
-			default:
-				fmt.Println("Objet inconnu :", item.Nom)
-				return
-			}
-			RemoveInventory(Objet{Nom: item.Nom, Quantite: 1})
-			fmt.Println("Vous avez utilisé :", item.Nom)
+
+// Afficher l'inventaire et permettre de choisir un objet à utiliser ou équiper
+func AccessInventory(perso *model.Personnage, inCombat bool, enemy *model.Personnage, utiliserObjet func(string, *model.Personnage, *[]Objet, *model.Personnage, bool)) {
+	fmt.Println("=== Inventaire ===")
+	for i, item := range Inventaire {
+		fmt.Printf("%d. %s (x%d)\n", i+1, item.Nom, item.Quantite)
+	}
+	fmt.Printf("➡ %d/%d places utilisées\n", len(Inventaire), CapaciteMax)
+
+	fmt.Println("\nQue voulez-vous faire ?")
+	fmt.Println("0 - Revenir")
+	fmt.Println("1 - Utiliser un objet")
+	fmt.Println("2 - Équiper un équipement")
+	var choix int
+	fmt.Scan(&choix)
+
+	switch choix {
+	case 0:
+		return
+	case 1:
+		fmt.Println("Entrez le numéro de l'objet à utiliser :")
+		var objIndex int
+		fmt.Scan(&objIndex)
+		if objIndex < 1 || objIndex > len(Inventaire) {
+			fmt.Println("⚠ Choix invalide.")
 			return
 		}
-	}
-	fmt.Println("⚠ Vous n'avez pas cet objet dans l'inventaire :", nom)
-}
-
-// Vérifie si l'objet est présent dans l'inventaire
-func HasItem(nom string) bool {
-	for _, item := range Inventaire {
-		if item.Nom == nom && item.Quantite > 0 {
-			return true
+		obj := Inventaire[objIndex-1]
+		utiliserObjet(obj.Nom, perso, &Inventaire, enemy, inCombat)
+	case 2:
+		fmt.Println("Entrez le numéro de l'équipement à équiper :")
+		var eqIndex int
+		fmt.Scan(&eqIndex)
+		if eqIndex < 1 || eqIndex > len(Inventaire) {
+			fmt.Println("⚠ Choix invalide.")
+			return
 		}
-	}
-	return false
-}
-
-func HasMagicBook(perso *model.Personnage) bool {
-	for _, item := range Inventaire {
-		if item.Nom == "Livre de Sort : Boule de feu" {
-			return true
+		obj := Inventaire[eqIndex-1]
+		if obj.Type != "Équipement" {
+			fmt.Println("⚠ Cet objet ne peut pas être équipé.")
+			return
 		}
+		perso.EquipItem(obj.Nom)
+	default:
+		fmt.Println("⚠ Choix invalide.")
 	}
-	return false
 }

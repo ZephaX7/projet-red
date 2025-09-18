@@ -5,6 +5,7 @@ import (
 	combat "projet-red/src/fight"
 	"projet-red/src/forgeron"
 	"projet-red/src/inventory"
+	"projet-red/src/items"
 	"projet-red/src/model"
 	"projet-red/src/shop"
 	"projet-red/src/stats"
@@ -28,7 +29,7 @@ func Menu_character(perso *model.Personnage) {
 		case 1:
 			stats.AfficherStats(perso)
 		case 2:
-			inventory.AccessInventory()
+			inventory.AccessInventory(perso, false, nil, items.UtiliserObjet)
 		case 3:
 			shop.Shop(perso)
 		case 4:
