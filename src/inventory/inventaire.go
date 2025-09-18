@@ -86,3 +86,22 @@ func UtiliserObjet(nom string, perso *model.Personnage) {
 	}
 	fmt.Println("⚠ Vous n'avez pas cet objet dans l'inventaire :", nom)
 }
+
+// Vérifie si l'objet est présent dans l'inventaire
+func HasItem(nom string) bool {
+	for _, item := range Inventaire {
+		if item.Nom == nom && item.Quantite > 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func HasMagicBook(perso *model.Personnage) bool {
+	for _, item := range Inventaire {
+		if item.Nom == "Livre de Sort : Boule de feu" {
+			return true
+		}
+	}
+	return false
+}

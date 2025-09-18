@@ -1,35 +1,38 @@
 package model
 
 import (
-	"fmt"
 	"math/rand"
+	"time"
 )
 
+// Ennemi struct
 type Ennemi struct {
+	Nom       string
 	Race      string
-	PVActuels int
 	PVMax     int
-	Gold      int
-	Xp        int
-	Force     int
-}
-
-// Affichage lisible
-func (e *Ennemi) Afficher() string { // ⚡ pointeur pour pouvoir modifier les PV
-	return fmt.Sprintf("Race : %s\nPV : %d/%d\nForce : %d\nGold : %d\nXP : %d",
-		e.Race, e.PVActuels, e.PVMax, e.Force, e.Gold, e.Xp)
+	PVActuels int
+	// Ajoute d'autres stats si nécessaire
 }
 
 // Liste des ennemis possibles
-var ListeEnnemis = []Ennemi{
-	{"Gobelin", 50, 50, 10, 20, 10},
-	{"Orc", 80, 80, 15, 30, 15},
-	{"Troll", 120, 120, 25, 50, 20},
-	{"Squelette", 40, 40, 5, 15, 8},
+var EnnemiList = []Ennemi{
+	{Nom: "Gobelin", Race: "Gobelin", PVMax: 50, PVActuels: 50},
+	{Nom: "Orc", Race: "Orc", PVMax: 80, PVActuels: 80},
+	{Nom: "Troll", Race: "Troll", PVMax: 120, PVActuels: 120},
 }
 
-// Génère un ennemi aléatoire
-func RandomEnnemi() *Ennemi { // retourne un pointeur
-	e := ListeEnnemis[rand.Intn(len(ListeEnnemis))]
-	return &e
+// RandomEnnemi retourne un ennemi aléatoire
+func RandomEnnemi() *Ennemi {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	index := r.Intn(len(EnnemiList))
+	e := EnnemiList[index]
+
+	// On crée une vraie copie pour que chaque combat soit indépendant
+	ennemi := Ennemi{
+		Nom:       e.Nom,
+		Race:      e.Race,
+		PVMax:     e.PVMax,
+		PVActuels: e.PVMax, // On initialise les PV à max
+	}
+	return &ennemi
 }

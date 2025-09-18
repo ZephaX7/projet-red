@@ -2,65 +2,78 @@ package fight
 
 import (
 	"fmt"
+	"os"
 	"projet-red/src/inventory"
 	"projet-red/src/model"
 )
 
-// Combat tour par tour joueur vs ennemi
-func Combat(joueur *model.Personnage) {
-	ennemi := model.RandomEnnemi()
-	fmt.Println("🔥 Un ennemi apparaît !")
-	fmt.Println(ennemi.Afficher())
-
-	for ennemi.PVActuels > 0 && joueur.PVActuels > 0 {
-		fmt.Println("\nVotre tour :")
-		fmt.Println("1 - Attaquer")
+func Combat(perso *model.Personnage, ennemi *model.Ennemi) {
+	for ennemi.PVActuels > 0 && perso.PVActuels > 0 {
+		fmt.Println("\n1 - Attaquer")
 		fmt.Println("2 - Utiliser un objet")
+		fmt.Println("3 - Utiliser une compétence magique (si livre dans l'inventaire)")
+
 		var choix int
 		fmt.Scan(&choix)
 
 		switch choix {
 		case 1:
-			// Attaque simple : dégâts = joueur Gold / 10 (ou fixe)
-			degat := 20
-			ennemi.PVActuels -= degat
+			damage := 20
+			ennemi.PVActuels -= damage
 			if ennemi.PVActuels < 0 {
 				ennemi.PVActuels = 0
 			}
-			fmt.Printf("Vous attaquez l'ennemi et infligez %d dégâts ! PV ennemi : %d/%d\n",
-				degat, ennemi.PVActuels, ennemi.PVMax)
+			fmt.Printf("Vous attaquez %s et infligez %d PV. PV ennemi : %d/%d\n",
+				ennemi.Nom, damage, ennemi.PVActuels, ennemi.PVMax)
+
 		case 2:
 			inventory.AccessInventory()
 			fmt.Println("Quel objet voulez-vous utiliser ?")
 			var nom string
 			fmt.Scan(&nom)
-			inventory.UtiliserObjet(nom, joueur)
-		default:
-			fmt.Println("Choix invalide.")
-		}
+			inventory.UtiliserObjet(nom, perso)
 
-		// Tour de l'ennemi si il est encore vivant
-		if ennemi.PVActuels > 0 {
-			fmt.Println("\nTour de l'ennemi !")
-			degat := ennemi.Force
-			joueur.PVActuels -= degat
-			if joueur.PVActuels < 0 {
-				joueur.PVActuels = 0
+		case 3:
+			if inventory.HasMagicBook(perso) { // fonction à créer pour vérifier l'inventaire
+				damage := 50 // dégâts du sort
+				ennemi.PVActuels -= damage
+				if ennemi.PVActuels < 0 {
+					ennemi.PVActuels = 0
+				}
+				fmt.Printf("💥 Vous utilisez votre sort magique et infligez %d PV à %s ! PV ennemi : %d/%d\n",
+					damage, ennemi.Nom, ennemi.PVActuels, ennemi.PVMax)
+			} else {
+				fmt.Println("⚠ Vous n'avez pas de livre magique dans votre inventaire !")
 			}
-			fmt.Printf("L'ennemi attaque et vous inflige %d dégâts ! PV joueur : %d/%d\n",
-				degat, joueur.PVActuels, joueur.PVMax)
-		}
-	}
 
-	// Fin du combat
-	if joueur.PVActuels <= 0 {
-		fmt.Println("💀 Vous avez été vaincu !")
-		joueur.PVActuels = joueur.PVMax / 2
-		fmt.Printf("Vous êtes ressuscité avec %d PV.\n", joueur.PVActuels)
-	} else {
-		fmt.Printf("🎉 Vous avez vaincu %s ! Vous gagnez %d XP et %d pièces d'or.\n",
-			ennemi.Race, ennemi.Xp, ennemi.Gold)
-		joueur.Xp += ennemi.Xp
-		joueur.Gold += ennemi.Gold
+		default:
+			fmt.Println("⚠ Choix invalide.")
+			continue
+		}
+
+		// Attaque de l'ennemi
+		if ennemi.PVActuels > 0 {
+			damage := 15
+			perso.PVActuels -= damage
+			if perso.PVActuels < 0 {
+				perso.PVActuels = 0
+			}
+			fmt.Printf("%s vous attaque ! PV : %d/%d\n", ennemi.Nom, perso.PVActuels, perso.PVMax)
+
+			// Résurrection unique
+			if perso.PVActuels <= 0 {
+				if !perso.Revived {
+					// Première résurrection
+					perso.PVActuels = perso.PVMax / 2
+					perso.Revived = true
+					fmt.Printf("💀 Vous êtes mort mais ressuscité avec %d/%d PV !\n", perso.PVActuels, perso.PVMax)
+					return // retour au hub
+				} else {
+					// Deuxième mort → game over
+					fmt.Println("☠️ Vous êtes mort définitivement. Fin du jeu.")
+					os.Exit(0) // ou return pour terminer le hub
+				}
+			}
+		}
 	}
 }
