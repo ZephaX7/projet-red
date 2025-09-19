@@ -2,15 +2,54 @@ package fight
 
 import (
 	"fmt"
+	"log"
+	"os"
 	"projet-red/src/inventory"
 	"projet-red/src/items"
 	"projet-red/src/model"
+	"time"
+
+	"github.com/faiface/beep"
+	"github.com/faiface/beep/effects"
+	"github.com/faiface/beep/mp3"
+	"github.com/faiface/beep/speaker"
 )
+
+func musiqueAmbiance() (beep.StreamSeekCloser, beep.Format) {
+	f, err := os.Open("asset/LeDernierCarnyx.mp3")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	streamer, format, err := mp3.Decode(f)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
+
+	// Créer un effet de volume
+	volume := &effects.Volume{
+		Streamer: streamer,
+		Base:     2.8,  // base logarithmique
+		Volume:   -2.5, // diminue le volume de 5 dB
+		Silent:   false,
+	}
+
+	// Lancer en arrière-plan
+	go func() {
+		speaker.Play(volume)
+	}()
+
+	return streamer, format
+}
 
 var inCombat bool
 
 // Combat d'un joueur contre un ennemi avec pattern Gobelin
 func Combat(perso *model.Personnage, ennemi *model.Ennemi) {
+	streamer, _ := musiqueAmbiance()
+
 	inCombat = true
 	turn := 1
 
@@ -116,11 +155,20 @@ func Combat(perso *model.Personnage, ennemi *model.Ennemi) {
 				perso.PVActuels = perso.PVMax / 2
 				perso.Revived = true
 				fmt.Printf("\n💀 Vous êtes mort mais ressuscité ! PV : %d/%d\n", perso.PVActuels, perso.PVMax)
+				streamer.Close()
 				return // retour au hub après revival
 			} else {
 				fmt.Println("\n💀 Vous êtes mort pour de bon ! Game Over.")
+				streamer.Close()
 				return
 			}
+		}
+		// Vérifier si l'ennemi est mort
+		if ennemi.PVActuels <= 0 {
+			fmt.Printf("\n🏆 Vous avez vaincu %s ! Vous gagnez %d pièces d'or.\n", ennemi.Nom, ennemi.Gold)
+			perso.Gold += ennemi.Gold
+			streamer.Close()
+			return
 		}
 
 		turn++

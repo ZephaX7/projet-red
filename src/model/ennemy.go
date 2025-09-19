@@ -11,15 +11,16 @@ type Ennemi struct {
 	PVMax     int
 	PVActuels int
 	Degats    int
+	Gold      int
 }
 
 // Fonction pour générer un ennemi aléatoire
 func RandomEnnemi() *Ennemi {
 	ennemis := []Ennemi{
-		{"Orc", "Orc", 120, 120, 20},
-		{"Gobelin", "Gobelin", 70, 70, 15},
-		{"Troll", "Troll", 150, 150, 25},
-		{"Loup", "Loup", 80, 80, 18},
+		{"Orc", "Orc", 120, 120, 20, 40},
+		{"Gobelin", "Gobelin", 70, 70, 15, 7},
+		{"Troll", "Troll", 150, 150, 25, 25},
+		{"Loup", "Loup", 80, 80, 18, 15},
 	}
 
 	i := rand.Intn(len(ennemis))

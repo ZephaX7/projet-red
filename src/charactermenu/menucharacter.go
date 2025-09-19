@@ -20,7 +20,7 @@ import (
 )
 
 func musiqueAmbiance() (beep.StreamSeekCloser, beep.Format) {
-	f, err := os.Open("src/asset/Ambiance.mp3")
+	f, err := os.Open("asset/Ambiance.mp3")
 	if err != nil {
 		log.Fatal(err)
 	}

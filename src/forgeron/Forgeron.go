@@ -25,7 +25,7 @@ type ItemCost struct {
 }
 
 func musiqueShop() (beep.StreamSeekCloser, beep.Format) {
-	f, err := os.Open("src/asset/Forge.mp3")
+	f, err := os.Open("asset/Forge.mp3")
 	if err != nil {
 		log.Fatal(err)
 	}

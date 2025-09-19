@@ -16,7 +16,7 @@ import (
 
 // Fonction pour lancer la musique d'accueil
 func musiqueShop() (beep.StreamSeekCloser, beep.Format) {
-	f, err := os.Open("src/asset/Shop.mp3")
+	f, err := os.Open("asset/Shop.mp3")
 	if err != nil {
 		log.Fatal(err)
 	}

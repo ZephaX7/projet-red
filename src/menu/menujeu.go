@@ -22,14 +22,14 @@ func afficherMenu() {
 	fmt.Println()
 
 	fmt.Println()
-	Lore, err := os.ReadFile("src/menu/Lore.txt")
+	Lore, err := os.ReadFile("asset/Lore.txt")
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(string(Lore))
 
 	// Lire le fichier ASCII art
-	Menu, err := os.ReadFile("src/menu/asciimenu.txt")
+	Menu, err := os.ReadFile("asset/asciimenu.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -44,7 +44,7 @@ func afficherMenu() {
 
 // Fonction pour lancer la musique d'accueil
 func musiqueAccueil() (beep.StreamSeekCloser, beep.Format) {
-	f, err := os.Open("src/asset/Bienvenue-en-Gaule.mp3")
+	f, err := os.Open("asset/Bienvenue-en-Gaule.mp3")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -88,7 +88,7 @@ func RunMenu() {
 
 		switch choix {
 		case 1:
-			Demarage, err := os.ReadFile("src/menu/asciidemarage.txt")
+			Demarage, err := os.ReadFile("asset/asciidemarage.txt")
 			if err != nil {
 				panic(err)
 			}
