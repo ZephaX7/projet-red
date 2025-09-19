@@ -11,6 +11,7 @@ import (
 	"projet-red/src/hub"
 
 	"github.com/faiface/beep"
+	"github.com/faiface/beep/effects"
 	"github.com/faiface/beep/mp3"
 	"github.com/faiface/beep/speaker"
 )
@@ -47,15 +48,25 @@ func musiqueAccueil() (beep.StreamSeekCloser, beep.Format) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	streamer, format, err := mp3.Decode(f)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
+
+	// Créer un effet de volume
+	volume := &effects.Volume{
+		Streamer: streamer,
+		Base:     2.8, // base logarithmique
+		Volume:   -2,  // diminue le volume de 5 dB
+		Silent:   false,
+	}
 
 	// Lancer en arrière-plan
 	go func() {
-		speaker.Play(streamer)
+		speaker.Play(volume)
 	}()
 
 	return streamer, format
