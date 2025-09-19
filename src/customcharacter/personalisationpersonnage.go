@@ -82,6 +82,7 @@ func (pz *Personnalisateur) CreerPersonnageInteractif() *model.Personnage {
 		Race:   r,
 		Classe: c,
 		Sexe:   s,
+		Gold:   100, // ou une autre valeur de départ
 	}
 
 	// Init PV selon race
